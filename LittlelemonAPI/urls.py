@@ -9,6 +9,7 @@ router.register(r"categories", views.CategoriesView, basename="categories")
 
 router.register(r"cart-items", views.CartItemsView, basename="cart-items")
 router.register(r"order-items", views.OrderItemsView, basename="order-items")
+
 urlpatterns = [
     path("menu-items/", views.menu_items, name="menu-items"),
     path(
@@ -25,4 +26,10 @@ urlpatterns = [
         "api-token-auth/", obtain_auth_token
     ),  # django rest framework token authentication endpoint (POST)
     path("groups/manager/users/", views.managers),
+    path("orders/", views.order, name="order"),
+    path(
+        "orders/<int:pk>/",
+        views.order_detail,
+        name="orders",
+    ),
 ]
