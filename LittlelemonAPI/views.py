@@ -7,12 +7,17 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Category, MenuItem
 from .serializers import MenuItemSerializer, CategorySerializer
-from rest_framework.decorators import api_view, permission_classes, throttle_classes
+from rest_framework.decorators import (
+    api_view,
+    permission_classes,
+    throttle_classes,
+    authentication_classes,
+)
 from rest_framework import generics, viewsets, status
 
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .throttles import TenCallsPerMinute
 
 from django.core.paginator import Paginator, EmptyPage
@@ -99,6 +104,7 @@ def single_item(request, pk):
 
 
 class CategoriesView(viewsets.ModelViewSet):
+
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
 
@@ -138,9 +144,18 @@ def throttle_check_auth(request):
 @permission_classes([IsAdminUser])
 def managers(request):
     """
-    view managers or
+    view users who are managers (GET) or
     Add a user to the staff or admin group
     """
+
+    if request.method == "GET":
+        managers = Group.objects.get(name="manager")
+        users = managers.user_set.all()
+        serialized_users = [
+            {"username": user.username, "id": user.id} for user in users
+        ]
+        return Response(serialized_users)
+
     username = request.data.get("username")
     if not username:
         return Response(

@@ -49,8 +49,21 @@ class MenuItemSerializer(serializers.HyperlinkedModelSerializer):
         tax_rate = 0.05
 
     def validate(self, attrs):
-        if attrs["price"] < 2:
+        if "price" in attrs and attrs["price"] < 2:
             raise serializers.ValidationError("Price should not be less than 2.0")
-        if attrs["inventory"] < 0:
+        if "inventory" in attrs and attrs["inventory"] < 0:
             raise serializers.ValidationError("Stock cannot be negative")
         return super().validate(attrs)
+
+    def update(self, instance, validated_data):
+        # update the category_id field
+        category_id = validated_data.pop("category_id", None)
+        if category_id is not None:
+            from .models import Category
+
+            instance.category = Category.objects.get(id=category_id)
+        # Update other fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
