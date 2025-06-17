@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -148,3 +149,15 @@ REST_FRAMEWORK = {
 DJOSER = {
     "USER_ID_FIELD": "username",
 }
+
+
+if DEBUG:
+    SIMPLE_JWT = {
+        "ACCESS_TOKEN_LIFETIME": timedelta(hours=4),  # Longer for development
+        "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    }
+else:
+    SIMPLE_JWT = {
+        "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),  # Shorter for production
+        "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    }
