@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, MenuItem, CartItem
+from .models import Category, MenuItem, CartItem, Order
 from decimal import Decimal
 import bleach
 
@@ -95,3 +95,33 @@ class CartItemSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"detail": "This menu item is already in your cart."}
             )
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ["id", "user", "delivery_crew", "status", "total", "date"]
+
+    def validate(self, attrs):
+
+        usergroup = self.context["user"].groups
+
+        if (
+            not usergroup.filter(name="manager").exists()
+            and not usergroup.filter(name="delivery").exists()
+        ):
+            raise serializers.ValidationError("User is not a manager or delivery crew.")
+
+        if self.instance and self.context["request"].method == "PATCH":
+            # Only allow delivery_crew to be updated
+            if self.context["user"].groups.filter(name="manager").exists():
+                if set(attrs.keys()) - {"delivery_crew"}:
+                    raise serializers.ValidationError(
+                        "Only delivery_crew can be updated."
+                    )
+                return super().validate(attrs)
+            elif self.context["user"].groups.filter(name="delivery").exists():
+                if set(attrs.keys()) - {"status"}:
+                    raise serializers.ValidationError("Only status can be updated.")
+                return super().validate(attrs)
+        return super().validate(attrs)

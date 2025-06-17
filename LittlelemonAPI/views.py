@@ -6,8 +6,16 @@ from django.contrib.auth.models import User, Group
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
+from .permissions import IsManagerUser
+from .utils import get_best_delivery_person
 from .models import Category, MenuItem, CartItem, Order, OrderItem
-from .serializers import MenuItemSerializer, CategorySerializer, CartItemSerializer
+from .serializers import (
+    MenuItemSerializer,
+    CategorySerializer,
+    CartItemSerializer,
+    OrderSerializer,
+)
 from rest_framework.decorators import (
     api_view,
     permission_classes,
@@ -164,7 +172,7 @@ def throttle_check_auth(request):
 
 
 @api_view(["POST", "GET"])
-@permission_classes([IsAdminUser])
+@permission_classes([IsManagerUser])
 def managers(request):
     """
     view users who are managers (GET) or
@@ -222,6 +230,88 @@ class OrderItemsView(viewsets.ModelViewSet):
         return CartItem.objects.filter(user=self.request.user.id)
 
 
+@api_view(["GET", "PATCH"])
+@permission_classes([IsAuthenticated])
+def order(request):
+    """
+    View to see orders. Managers see all,
+    users see their own orders and delivery crew
+    see orders assigned to them.
+    """
+
+    user = request.user
+
+    if request.method == "GET":
+        orders = None
+        if user.groups.filter(name="manager").exists():
+            # Managers can see all orders
+            orders = Order.objects.all()
+        elif user.groups.filter(name="delivery crew").exists():
+            # Delivery crew can see orders assigned to them
+            orders = Order.objects.filter(delivery_crew=user)
+        else:
+            # Regular users can only see their own orders
+            orders = Order.objects.filter(user=user)
+
+        serialized_order = OrderSerializer(orders, many=True)
+        return Response(serialized_order.data)
+
+
+@api_view(["GET", "DELETE", "PATCH"])
+@permission_classes([IsAuthenticated])
+def order_detail(request, pk):
+    """
+    View to manage a specific order.
+    Managers can edit any order, users can only view their own orders.
+    """
+    user = request.user
+
+    if request.method == "GET":
+        order = get_object_or_404(Order, pk=pk)
+        if user.groups.filter(name="manager").exists() or order.user == user:
+            serialized_order = OrderSerializer(order)
+            return Response(serialized_order.data)
+        else:
+            return Response(
+                {"detail": "You do not have permission to view this order."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+    elif request.method == "DELETE":
+        if not user.groups.filter(name="manager").exists():
+            return Response(
+                {"detail": "You do not have permission to delete orders."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        order = get_object_or_404(Order, pk=pk, user=request.user)
+        order.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    elif request.method == "PATCH":
+        if not user.groups.filter(name="manager").exists():
+            return Response(
+                {"detail": "You do not have permission to edit orders."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        order = get_object_or_404(Order, pk=pk)
+        serialized_order = OrderSerializer(
+            order,
+            data=request.data,
+            partial=True,
+            context={"request": request, "user": user},
+        )
+        serialized_order.is_valid(raise_exception=True)
+        serialized_order.save()
+        return Response(
+            serialized_order.data,
+        )
+
+    return Response(
+        {"detail": "Method not allowed."}, status=status.HTTP_405_METHOD_NOT_ALLOWED
+    )
+
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def checkout(request):
@@ -237,8 +327,13 @@ def checkout(request):
         )
 
     total_price = sum(item.menuitem.price * item.quantity for item in cart_items)
+    delivery_person = get_best_delivery_person(Order.objects.all())
+
     order = Order.objects.create(
-        user=user, total=total_price, date=datetime.date.today()
+        user=user,
+        total=total_price,
+        date=datetime.date.today(),
+        delivery_crew=delivery_person,
     )
 
     for item in cart_items:
