@@ -1,3 +1,4 @@
+import datetime
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.models import User, Group
@@ -5,8 +6,8 @@ from django.contrib.auth.models import User, Group
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Category, MenuItem
-from .serializers import MenuItemSerializer, CategorySerializer
+from .models import Category, MenuItem, CartItem, Order, OrderItem
+from .serializers import MenuItemSerializer, CategorySerializer, CartItemSerializer
 from rest_framework.decorators import (
     api_view,
     permission_classes,
@@ -98,9 +99,42 @@ def single_item(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# class SingleMenuItemView(generics.RetrieveUpdateAPIView, generics.DestroyAPIView):
-#     queryset = MenuItem.objects.all()
-#     serializer_class = MenuItemSerializer
+@api_view(["GET", "POST"])
+def menu_item_featured(request):
+    """
+    View to get the menu item of the day or
+    to set it via POST.
+    """
+
+    if request.method == "GET":
+        try:
+            item = MenuItem.objects.get(featured=True)
+            serialized_item = MenuItemSerializer(item)
+            return Response(serialized_item.data)
+        except MenuItem.DoesNotExist:
+            return Response(
+                {"detail": "No special item for today."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+    elif request.method == "POST":
+        if not request.user.is_staff:
+            return Response({"detail": "Admin only."}, status=status.HTTP_403_FORBIDDEN)
+        item_id = request.data.get("item_id")
+        if not item_id:
+            return Response(
+                {"detail": "Item ID is required."}, status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            item = MenuItem.objects.get(pk=item_id)
+            MenuItem.objects.update(featured=False)  # reset previous featured item
+            item.featured = True
+            item.save()
+            serialized_item = MenuItemSerializer(item)
+            return Response(serialized_item.data, status=status.HTTP_200_OK)
+        except MenuItem.DoesNotExist:
+            return Response(
+                {"detail": "Menu item not found."}, status=status.HTTP_404_NOT_FOUND
+            )
 
 
 class CategoriesView(viewsets.ModelViewSet):
@@ -116,24 +150,13 @@ class CategoriesView(viewsets.ModelViewSet):
             return [IsAdminUser()]
 
 
-# @api_view()
-# def category_detail(request, pk):
-#     category = get_object_or_404(Category, pk=pk)
-#     serialized_category = CategorySerializer(category)
-#     return Response(serialized_category.data)
-
-
-# @api_view()
-# def single_item(request, id):
-#     item = get_object_or_404(MenuItem, pk=id)
-#     serialized_item = MenuItemSerializer(item)
-#     return Response(serialized_item.data)
-
-
 @api_view()
 @permission_classes([IsAuthenticated])
 @throttle_classes([TenCallsPerMinute])
 def throttle_check_auth(request):
+    """
+    This is just for testing throttling.
+    """
     return Response(
         {"message": "This is a throttled endpoint for users!"},
         status=status.HTTP_200_OK,
@@ -173,3 +196,60 @@ def managers(request):
             {"error": "Method not allowed."}, status=status.HTTP_405_METHOD_NOT_ALLOWED
         )
     return Response({"message": "ok"})
+
+
+class CartItemsView(viewsets.ModelViewSet):
+    """
+    View to manage the cart.
+    """
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = CartItemSerializer
+
+    def get_queryset(self):
+        return CartItem.objects.filter(user=self.request.user.id)
+
+
+class OrderItemsView(viewsets.ModelViewSet):
+    """
+    View to manage the order.
+    """
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = CartItemSerializer
+
+    def get_queryset(self):
+        return CartItem.objects.filter(user=self.request.user.id)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def checkout(request):
+    """
+    View to checkout the cart items and create an order.
+    """
+    user = User.objects.get(id=request.user.id)
+    cart_items = CartItem.objects.filter(user=user)
+
+    if not cart_items.exists():
+        return Response(
+            {"detail": "Your cart is empty."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    total_price = sum(item.menuitem.price * item.quantity for item in cart_items)
+    order = Order.objects.create(
+        user=user, total=total_price, date=datetime.date.today()
+    )
+
+    for item in cart_items:
+        OrderItem.objects.create(
+            order=order, menuitem=item.menuitem, quantity=item.quantity
+        )
+
+    # Clear the cart after checkout
+    cart_items.delete()
+
+    return Response(
+        {"detail": "Order created successfully.", "order_id": order.id},
+        status=status.HTTP_201_CREATED,
+    )

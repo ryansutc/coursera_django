@@ -1,7 +1,9 @@
 from rest_framework import serializers
-from .models import Category, MenuItem
+from .models import Category, MenuItem, CartItem
 from decimal import Decimal
 import bleach
+
+from django.db import IntegrityError
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -40,6 +42,7 @@ class MenuItemSerializer(serializers.HyperlinkedModelSerializer):
             "price_after_tax",
             "category",
             "category_id",
+            "featured",
         ]
 
     def calculate_tax(self, product: MenuItem):
@@ -67,3 +70,28 @@ class MenuItemSerializer(serializers.HyperlinkedModelSerializer):
             setattr(instance, attr, value)
         instance.save()
         return instance
+
+
+class CartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = ["id", "menuitem", "quantity"]
+
+    def validate(self, attrs):
+        if "quantity" not in attrs:
+            raise serializers.ValidationError("Quantity is required.")
+
+        if attrs["quantity"] < 0:
+            attrs["quantity"] = 0
+        attrs["user_id"] = self.context["request"].user.id
+        return super().validate(attrs)
+
+    def create(self, validated_data):
+        # Attach the user from context
+        validated_data["user_id"] = self.context["request"].user.id
+        try:
+            return super().create(validated_data)
+        except IntegrityError as e:
+            raise serializers.ValidationError(
+                {"detail": "This menu item is already in your cart."}
+            )

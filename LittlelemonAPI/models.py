@@ -33,14 +33,13 @@ class MenuItem(models.Model):
     featured = models.BooleanField(default=False, db_index=True)
 
 
-class Cart(models.Model):
+class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     menuitem = models.ForeignKey(
         MenuItem,
         on_delete=models.CASCADE,
     )
-    quantity = (models.SmallIntegerField(),)
-    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
+    quantity = models.SmallIntegerField(default=1, validators=[MinValueValidator(0)])
 
     class Meta:
         unique_together = ("menuitem", "user")
@@ -49,7 +48,8 @@ class Cart(models.Model):
 class Order(models.Model):
     """
     when a user presses checkout on a cart w. items,
-    the cart disappears and becomes an order.
+    an order appears for the user. This contains the user,
+    delivery crew, status, total price, and date.
     """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -59,7 +59,7 @@ class Order(models.Model):
         null=True,
         related_name="delivery_crew",  # b/c we have 2 fields that use FK for user!
     )
-    status = models.BooleanField(db_index=True, default=0)  # is order delivered?
+    status = models.BooleanField(db_index=True, default=False)  # is order delivered?
     total = models.DecimalField(max_digits=6, decimal_places=2)  # price of all items!
     date = models.DateField(db_index=True)  # when order placed
 
@@ -67,16 +67,13 @@ class Order(models.Model):
 class OrderItem(models.Model):
     """
     After order is placed, cart items become order items.
+    Instead of items being associated with a user, they are
+    now associated with an order.
     """
 
-    order = models.ForeignKey(User, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     menuitem = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     quantity = models.SmallIntegerField()
-    # tutorial reqires unit_price and price here.
-    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
-    price = models.DecimalField(
-        max_digits=6, decimal_places=2
-    )  # total price = unit price * quantity
 
     class Meta:
         unique_together = ("order", "menuitem")

@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 
 
 class RatingSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Rating model.
+    This serializer handles the creation and validation of ratings for menu items.
+    """
+
     user = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.all(), default=serializers.CurrentUserDefault()
     )
