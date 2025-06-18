@@ -49,7 +49,6 @@ class MenuItemSerializer(serializers.HyperlinkedModelSerializer):
         # for financial calculations, float cannot be relied upon. floating-point. 0.2
         price = product.price * Decimal(1.1)
         return f"{price:.2f}"
-        tax_rate = 0.05
 
     def validate(self, attrs):
         if "price" in attrs and attrs["price"] < 2:
@@ -91,7 +90,7 @@ class CartItemSerializer(serializers.ModelSerializer):
         validated_data["user_id"] = self.context["request"].user.id
         try:
             return super().create(validated_data)
-        except IntegrityError as e:
+        except IntegrityError:
             raise serializers.ValidationError(
                 {"detail": "This menu item is already in your cart."}
             )
