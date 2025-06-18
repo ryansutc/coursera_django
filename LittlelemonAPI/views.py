@@ -21,7 +21,7 @@ from rest_framework.decorators import (
 )
 from rest_framework import viewsets, status
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .throttles import TenCallsPerMinute
 
 from django.core.paginator import Paginator, EmptyPage
@@ -151,7 +151,7 @@ class CategoriesView(viewsets.ModelViewSet):
         """
         if self.request.method in ["POST", "PUT", "PATCH", "DELETE"]:
             return [IsManagerUser()]
-        return [IsAuthenticated()]
+        return [AllowAny()]  # Allow anyone to view categories
 
 
 @api_view()
