@@ -1,50 +1,28 @@
 [tool.black]
 line-length = 88
 
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".hg",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "venv",
-]
+exclude = '''
+(
+    /migrations/|
+    /static/|
+    /media/|
+    /\.venv/|
+    \.git/|
+    \.hg/|
+    \.mypy_cache/|
+    \.tox/|
+    \.env/|
+    \.eggs/|
+    \.pytest_cache/|
+    /build/|
+    /dist/|
+    /node_modules/|
+    ^/fixtures/|
+    ^/some_other_dir/
+)
+'''
 
 
 [tool.ruff]
 line-length = 88
 
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".hg",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "venv",
-]
