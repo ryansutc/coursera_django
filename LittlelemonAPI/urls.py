@@ -12,10 +12,7 @@ router.register(r"order-items", views.OrderItemsView, basename="order-items")
 
 urlpatterns = [
     path("menu-items/", views.menu_items, name="menu-items"),
-    path(
-        "menu-items/<int:pk>/",
-        views.single_item,
-    ),
+    path("menu-items/<int:pk>/", views.single_item, name="menu-item"),
     path("menu-items/featured/", views.menu_item_featured, name="featured"),
     path("cart-items/checkout/", views.checkout, name="checkout"),
     path("", include(router.urls)),
