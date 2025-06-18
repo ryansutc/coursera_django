@@ -12,6 +12,10 @@ djangorestframework-simplejwt = "*"
 bleach = "*"
 
 [dev-packages]
+flake8 = "*"
+pylint-django = "*"
+black = "*"
+ruff = "*"
 
 [requires]
 python_version = "3.11"

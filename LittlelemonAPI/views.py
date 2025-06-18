@@ -1,10 +1,8 @@
 import datetime
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User, Group
 
 # Create your views here.
-from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .permissions import IsManagerUser
@@ -20,13 +18,10 @@ from rest_framework.decorators import (
     api_view,
     permission_classes,
     throttle_classes,
-    authentication_classes,
 )
-from rest_framework import generics, viewsets, status
+from rest_framework import viewsets, status
 
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 from .throttles import TenCallsPerMinute
 
 from django.core.paginator import Paginator, EmptyPage
@@ -147,15 +142,16 @@ def menu_item_featured(request):
 
 class CategoriesView(viewsets.ModelViewSet):
 
-    serializer_class = CategorySerializer
     queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
     def get_permissions(self):
         """
         Allow any user to view categories, but only admin users can modify them.
         """
         if self.request.method in ["POST", "PUT", "PATCH", "DELETE"]:
-            return [IsAdminUser()]
+            return [IsManagerUser()]
+        return [IsAuthenticated()]
 
 
 @api_view()

@@ -1,0 +1,169 @@
+[
+  {
+    "model": "LittlelemonAPI.category",
+    "pk": 1,
+    "fields": { "slug": "dessert", "title": "dessert" }
+  },
+  {
+    "model": "LittlelemonAPI.category",
+    "pk": 2,
+    "fields": { "slug": "main", "title": "main" }
+  },
+  {
+    "model": "LittlelemonAPI.category",
+    "pk": 3,
+    "fields": { "slug": "appetizer", "title": "appetizer" }
+  },
+  {
+    "model": "LittlelemonAPI.menuitem",
+    "pk": 1,
+    "fields": {
+      "title": "ice-cream",
+      "price": "9.99",
+      "inventory": 1,
+      "category": 1,
+      "featured": false
+    }
+  },
+  {
+    "model": "LittlelemonAPI.menuitem",
+    "pk": 2,
+    "fields": {
+      "title": "beefsteak",
+      "price": "14.99",
+      "inventory": null,
+      "category": 2,
+      "featured": false
+    }
+  },
+  {
+    "model": "LittlelemonAPI.menuitem",
+    "pk": 4,
+    "fields": {
+      "title": "pasta",
+      "price": "13.95",
+      "inventory": null,
+      "category": 2,
+      "featured": true
+    }
+  },
+  {
+    "model": "LittlelemonAPI.menuitem",
+    "pk": 5,
+    "fields": {
+      "title": "salmon",
+      "price": "25.99",
+      "inventory": 0,
+      "category": 2,
+      "featured": false
+    }
+  },
+  {
+    "model": "LittlelemonAPI.order",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "delivery_crew": 2,
+      "status": false,
+      "total": "39.97",
+      "date": "2025-06-17"
+    }
+  },
+  {
+    "model": "LittlelemonAPI.order",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "delivery_crew": null,
+      "status": false,
+      "total": "39.97",
+      "date": "2025-06-17"
+    }
+  },
+  {
+    "model": "LittlelemonAPI.order",
+    "pk": 3,
+    "fields": {
+      "user": 2,
+      "delivery_crew": null,
+      "status": false,
+      "total": "39.97",
+      "date": "2025-06-17"
+    }
+  },
+  {
+    "model": "LittlelemonAPI.order",
+    "pk": 4,
+    "fields": {
+      "user": 2,
+      "delivery_crew": null,
+      "status": false,
+      "total": "39.97",
+      "date": "2025-06-17"
+    }
+  },
+  {
+    "model": "LittlelemonAPI.order",
+    "pk": 5,
+    "fields": {
+      "user": 2,
+      "delivery_crew": null,
+      "status": false,
+      "total": "39.97",
+      "date": "2025-06-17"
+    }
+  },
+  {
+    "model": "LittlelemonAPI.order",
+    "pk": 6,
+    "fields": {
+      "user": 2,
+      "delivery_crew": null,
+      "status": false,
+      "total": "39.97",
+      "date": "2025-06-17"
+    }
+  },
+  {
+    "model": "LittlelemonAPI.order",
+    "pk": 7,
+    "fields": {
+      "user": 2,
+      "delivery_crew": 8,
+      "status": false,
+      "total": "9.99",
+      "date": "2025-06-17"
+    }
+  },
+  {
+    "model": "LittlelemonAPI.order",
+    "pk": 8,
+    "fields": {
+      "user": 2,
+      "delivery_crew": 8,
+      "status": false,
+      "total": "9.99",
+      "date": "2025-06-17"
+    }
+  },
+  {
+    "model": "LittlelemonAPI.orderitem",
+    "pk": 1,
+    "fields": { "order": 6, "menuitem": 2, "quantity": 2 }
+  },
+  {
+    "model": "LittlelemonAPI.orderitem",
+    "pk": 2,
+    "fields": { "order": 6, "menuitem": 1, "quantity": 1 }
+  },
+  {
+    "model": "LittlelemonAPI.orderitem",
+    "pk": 3,
+    "fields": { "order": 7, "menuitem": 1, "quantity": 1 }
+  },
+  {
+    "model": "LittlelemonAPI.orderitem",
+    "pk": 4,
+    "fields": { "order": 8, "menuitem": 1, "quantity": 1 }
+  }
+]
