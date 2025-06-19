@@ -112,12 +112,13 @@ class TestCategoriesEndpoints(APITestSetupMixin, APITestCase):
     """
     All sorts of tests for the categories endpoints
     """
-
+    
+        
     def test_anyone_can_view_categories(self):
         """
         Test that anyone can view the categories list.
         """
-        response = self.client.get(self.url)
+        response = self.client.get(reverse("categories-list"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
 
