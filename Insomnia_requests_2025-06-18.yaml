@@ -1,0 +1,1415 @@
+type: collection.insomnia.rest/5.0
+name: DLittleLemon_main
+meta:
+  id: wrk_9d95c77a42c148e782e789c275b0ce6c
+  created: 1750100732046
+  modified: 1750111781996
+  description: ""
+collection:
+  - name: throttle
+    meta:
+      id: fld_e3d40a9aaa1648348f1d5a20a0ad0acd
+      created: 1749742855507
+      modified: 1749753097274
+      sortKey: -1749753061015
+      description: ""
+    children:
+      - url: "{{ _.base_url }}throttle-check"
+        name: api/throttle-check
+        meta:
+          id: req_402cebb7d3a145f386e202b3529a667f
+          created: 1749742434259
+          modified: 1750110606376
+          isPrivate: false
+          description: ""
+          sortKey: -1749743035009
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}throttle-check-auth"
+        name: thottle-check-auth
+        meta:
+          id: req_222df5b8484346ec8731b7cae7b2fe65
+          created: 1749742833100
+          modified: 1750110620982
+          isPrivate: false
+          description: ""
+          sortKey: -1749743034909
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+          - name: ""
+            value: ""
+        authentication:
+          type: bearer
+          token: 83dd60fdfa69525d056c0fb7d7bc938e355854e0
+          prefix: Token
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+    scripts:
+      afterResponse: ""
+      preRequest: ""
+  - name: tokens
+    meta:
+      id: fld_2291a5b21e4545e69f924ffb66396fb4
+      created: 1749753060915
+      modified: 1750288108289
+      sortKey: -1749753060915
+      description: ""
+    children:
+      - url: "{{ _.base_url }}api-token-auth/"
+        name: api-token-auth (signin)
+        meta:
+          id: req_c35cac87f4ca4e92aeb57826320c3993
+          created: 1749741624564
+          modified: 1750110979915
+          isPrivate: false
+          description: This is the login endpoint for logging into Django Admin itself,
+            using the Django native token system.
+          sortKey: -1749753071111
+        method: POST
+        body:
+          mimeType: application/x-www-form-urlencoded
+          params:
+            - name: username
+              value: "{{ _.username_admin }}"
+              description: ""
+              disabled: false
+              id: pair_ca0b8806b44e4ffca1398e79f4632c49
+            - name: password
+              value: "{{ _.password_admin }}"
+              description: ""
+              disabled: false
+              id: pair_df28ca6ce7b34c5881438710c4424634
+        headers:
+          - name: Content-Type
+            value: application/x-www-form-urlencoded
+          - name: User-Agent
+            value: insomnia/11.2.0
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}token/"
+        name: JWT Token Generate (Admin)
+        meta:
+          id: req_92e2cdfdffc64b6d9a41876fc7013f52
+          created: 1749742822735
+          modified: 1750191160765
+          isPrivate: false
+          description: ""
+          sortKey: -1749753071011
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: username
+              value: "{{ _.username_admin }}"
+              description: ""
+              disabled: false
+              id: pair_ee66b22ea8174839852b79981516e01e
+            - name: password
+              value: "{{ _.password_admin }}"
+              description: ""
+              disabled: false
+              id: pair_2162b78866ec422194981ee1af761f47
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.2.0
+        scripts:
+          preRequest: ""
+          afterResponse: >+
+            const response = insomnia.response;
+
+
+            if (response.code === 200) {
+            	
+            	try {
+            		const json = response.json();
+            		
+            		if (json.refresh) {
+            			
+            			await insomnia.environment.set("jwt_refresh", json.refresh);
+            			console.log("jwt_refresh updated: ...", json.refresh.slice(json.refresh.length - 4))
+            			await insomnia.environment.set("jwt_access", json.access);
+            			console.log("jwt_access updated: ...", json.refresh.slice(json.access.length - 4))
+            			
+            		}
+            		else {
+            			console.warn("No 'refresh' field in response body. Could not update env var")
+            		}
+            		
+            	}
+            	catch (err) {
+            		console.warn("Error parsing response body", err)
+            	}
+            }
+
+
+
+
+
+
+
+
+            const jsonBody = insomnia.response.json();
+
+
+
+
+
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}token/refresh/"
+        name: Regenerate JWT Token (Admin)
+        meta:
+          id: req_000789e03c684108b14dc3cb6bd41803
+          created: 1749746140825
+          modified: 1750192383410
+          isPrivate: false
+          description: ""
+          sortKey: -1749753070986
+        method: POST
+        body:
+          mimeType: application/x-www-form-urlencoded
+          params:
+            - name: refresh
+              value: "{{ jwt_refresh }}"
+              description: ""
+              disabled: false
+              id: pair_b8d1de7a9cb64ee09a2ebd77f0c18517
+        headers:
+          - name: Content-Type
+            value: application/x-www-form-urlencoded
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access }}"
+          prefix: ""
+        scripts:
+          preRequest: ""
+          afterResponse: >+
+            const response = insomnia.response;
+
+
+            if (response.code === 200) {
+            	
+            	try {
+            		const json = response.json();
+            	
+            		if (json.access) {
+            			
+            			await insomnia.environment.set("jwt_access", json.access);
+            			console.log("jwt_refresh updated: ...", json.access.slice(json.access.length - 4))
+            		
+            			
+            		}
+            		else {
+            			console.warn("No 'access' field in response body. Could not update env var")
+            		}
+            		
+            	}
+            	catch (err) {
+            		console.warn("Error parsing response body", err)
+            	}
+            }
+
+
+
+
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}token/blacklist/"
+        name: BlackList
+        meta:
+          id: req_f107807ae40f44379b7b6904da09a1df
+          created: 1749746697120
+          modified: 1750112940858
+          isPrivate: false
+          description: ""
+          sortKey: -1749753070811
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: refresh
+              value: "{{ _.jwt_refresh }}"
+              description: ""
+              disabled: false
+              id: pair_f3f1d0c7293f4822882fbc878c809ad8
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.2.0
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}token/"
+        name: JWT Token Generate (User)
+        meta:
+          id: req_1a7aae40544c47a59078caa9080d666a
+          created: 1750191149336
+          modified: 1750203110322
+          isPrivate: false
+          description: ""
+          sortKey: -1749753070979.75
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: username
+              value: customerCathy
+              description: ""
+              disabled: false
+              id: pair_ee66b22ea8174839852b79981516e01e
+            - name: password
+              value: Password123!
+              description: ""
+              disabled: false
+              id: pair_2162b78866ec422194981ee1af761f47
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.2.0
+        scripts:
+          preRequest: ""
+          afterResponse: >+
+            const response = insomnia.response;
+
+
+            if (response.code === 200) {
+            	
+            	try {
+            		const json = response.json();
+            		
+            		if (json.access) {
+            			
+            		
+            			await insomnia.environment.set("jwt_access_user", json.access);
+            			console.log("jwt_access user updated: ...", json.refresh.slice(json.access.length - 4))
+            			
+            		}
+            		else {
+            			console.warn("No 'refresh' field in response body. Could not update env var")
+            		}
+            		
+            	}
+            	catch (err) {
+            		console.warn("Error parsing response body", err)
+            	}
+            }
+
+
+
+
+
+
+
+
+            const jsonBody = insomnia.response.json();
+
+
+
+
+
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}token/"
+        name: JWT Token Generate (Delivery)
+        meta:
+          id: req_6a26f211f4ae4eb699390d19db3e71f4
+          created: 1750202557461
+          modified: 1750203135047
+          isPrivate: false
+          description: ""
+          sortKey: -1749753070973.5
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: username
+              value: deliverydave
+              description: ""
+              disabled: false
+              id: pair_ee66b22ea8174839852b79981516e01e
+            - name: password
+              value: Password123!
+              description: ""
+              disabled: false
+              id: pair_2162b78866ec422194981ee1af761f47
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.2.0
+        scripts:
+          preRequest: ""
+          afterResponse: >+
+            const response = insomnia.response;
+
+
+            if (response.code === 200) {
+            	
+            	try {
+            		const json = response.json();
+            		
+            		if (json.refresh) {
+            			
+            		
+            			await insomnia.environment.set("jwt_access_delivery", json.access);
+            			console.log("jwt_access_delivery updated: ...", json.refresh.slice(json.access.length - 4))
+            			
+            		}
+            		else {
+            			console.warn("No 'refresh' field in response body. Could not update env var")
+            		}
+            		
+            	}
+            	catch (err) {
+            		console.warn("Error parsing response body", err)
+            	}
+            }
+
+
+
+
+
+
+
+
+            const jsonBody = insomnia.response.json();
+
+
+
+
+
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}token/"
+        name: JWT Token Generate (Manager)
+        meta:
+          id: req_bd4dbf51df8b468bba0d836458b78ece
+          created: 1750202950099
+          modified: 1750203149674
+          isPrivate: false
+          description: ""
+          sortKey: -1749753070892.25
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: username
+              value: managerBob
+              description: ""
+              disabled: false
+              id: pair_ee66b22ea8174839852b79981516e01e
+            - name: password
+              value: Password123!
+              description: ""
+              disabled: false
+              id: pair_2162b78866ec422194981ee1af761f47
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.2.0
+        scripts:
+          preRequest: ""
+          afterResponse: >+
+            const response = insomnia.response;
+
+
+            if (response.code === 200) {
+            	
+            	try {
+            		const json = response.json();
+            		
+            		if (json.access) {
+            			
+            			
+            			await insomnia.environment.set("jwt_access_manager", json.access);
+            			console.log("jwt_access_manager updated: ...", json.refresh.slice(json.access.length - 4))
+            			
+            		}
+            		else {
+            			console.warn("No 'access' field in response body. Could not update env var")
+            		}
+            		
+            	}
+            	catch (err) {
+            		console.warn("Error parsing response body", err)
+            	}
+            }
+
+
+
+
+
+
+
+
+            const jsonBody = insomnia.response.json();
+
+
+
+
+
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+    scripts:
+      afterResponse: ""
+      preRequest: ""
+  - name: auth
+    meta:
+      id: fld_26e0d144dd444715a2274a9e95a31149
+      created: 1750116362317
+      modified: 1750116362317
+      sortKey: -1750116362317
+      description: ""
+    children:
+      - url: http://{{ _.domain }}/auth/token/login/
+        name: Login
+        meta:
+          id: req_434d089292af4c8c9b6d7f1a96fc23ed
+          created: 1750116365084
+          modified: 1750116483581
+          isPrivate: false
+          description: ""
+          sortKey: -1750116365084
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - id: pair_d67d2eaab2ab487482bdcbb89cc62897
+              name: username
+              value: "{{ _.username_admin }}"
+              description: ""
+              disabled: false
+            - id: pair_015cad5a8de247379bc305b9a57339b0
+              name: password
+              value: "{{ _.password_admin }}"
+              description: ""
+              disabled: false
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.2.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://{{ _.domain }}/auth/users/me/
+        name: Me
+        meta:
+          id: req_3b7cbc08ac664a2bbccc6abe56723f78
+          created: 1750188946881
+          modified: 1750189064151
+          isPrivate: false
+          description: Test that one of the endpoints auto-generated with the help of the
+            djoser library/plugin work.
+          sortKey: -1750188946881
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: menu_items
+    meta:
+      id: fld_8bedba5fc5e04ba2916f99bbf5e97456
+      created: 1750182074676
+      modified: 1750182079037
+      sortKey: -1749751100692.3438
+      description: ""
+    children:
+      - url: "{{ _.base_url }}menu-items/"
+        name: 3. Add MenuItems
+        meta:
+          id: req_1f20c308e385406e8be195121de989bd
+          created: 1749751031062
+          modified: 1750287040820
+          isPrivate: false
+          description: ""
+          sortKey: -1750182082675
+        method: POST
+        body:
+          mimeType: application/x-www-form-urlencoded
+          params:
+            - name: title
+              value: salmon
+              description: ""
+              disabled: false
+              id: pair_38f6c257318940c6b06cc9a54549feed
+            - name: price
+              value: "25.99"
+              description: ""
+              disabled: false
+              id: pair_1076b440cb8e4abeba9a72ed00345f29
+            - name: category_id
+              value: "2"
+              description: ""
+              disabled: false
+              id: pair_97aa0d953ca34675920df52a1c82f23c
+            - name: inventory
+              value: "0"
+              description: ""
+              disabled: false
+              id: pair_77ea7b617f874547863541417f085307
+        parameters:
+          - name: ""
+            value: ""
+            disabled: false
+            id: pair_dea9be73b3f14647b2cc8d5f86568b7a
+        headers:
+          - name: Content-Type
+            value: application/x-www-form-urlencoded
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access_manager }}"
+          prefix: ""
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}menu-items/2/"
+        name: Edit Menu Item
+        meta:
+          id: req_9c89ce59d32044b98d7dfbc83351be55
+          created: 1749752297632
+          modified: 1750185032754
+          isPrivate: false
+          description: ""
+          sortKey: -1750132794381.75
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"category_id": 2
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access }}"
+          prefix: ""
+          disabled: false
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}menu-items/?perpage=10"
+        name: " View all Menu Items"
+        meta:
+          id: req_425fb974f3414b5897d943454ed19b54
+          created: 1750182101618
+          modified: 1750183488214
+          isPrivate: false
+          description: ""
+          sortKey: -1750149223879.5
+        method: GET
+        body:
+          mimeType: application/x-www-form-urlencoded
+        parameters:
+          - name: ""
+            value: ""
+            disabled: false
+            id: pair_dea9be73b3f14647b2cc8d5f86568b7a
+        headers:
+          - name: Content-Type
+            value: application/x-www-form-urlencoded
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: none
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}menu-items/?perpage=10&category=main&ordering=-price,id"
+        name: " View Menu Items (Sorted and Filtered)"
+        meta:
+          id: req_713f71a440cb4a77a373ad396ca17097
+          created: 1750182179646
+          modified: 1750182240435
+          isPrivate: false
+          description: ""
+          sortKey: -1750132794481.75
+        method: GET
+        body:
+          mimeType: application/x-www-form-urlencoded
+        parameters:
+          - name: ""
+            value: ""
+            disabled: false
+            id: pair_dea9be73b3f14647b2cc8d5f86568b7a
+        headers:
+          - name: Content-Type
+            value: application/x-www-form-urlencoded
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: none
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: categories
+    meta:
+      id: fld_b0114e533afa43db9b12f97189971c73
+      created: 1750182276342
+      modified: 1750182283586
+      sortKey: -1749750903982.125
+      description: ""
+    children:
+      - url: "{{ _.base_url }}categories/"
+        name: 4. Add new Category
+        meta:
+          id: req_a4342b3ecf1b42fd9aa5aaf2e3725b82
+          created: 1749751233623
+          modified: 1750287266055
+          isPrivate: false
+          description: ""
+          sortKey: -1750182287621
+        method: POST
+        body:
+          mimeType: application/x-www-form-urlencoded
+          params:
+            - name: title
+              value: appetizer
+              description: ""
+              disabled: false
+              id: pair_30fa688eba2a47c286b70559be2e68b5
+            - name: slug
+              value: appetizer
+              description: ""
+              disabled: false
+              id: pair_b05e69fb75674c458737048de922720f
+        headers:
+          - name: Content-Type
+            value: application/x-www-form-urlencoded
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access_user }}"
+          disabled: false
+          prefix: ""
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}categories/"
+        name: View all Categories (anyone)
+        meta:
+          id: req_774a5f0e8ef84738af5f037b16d66dcd
+          created: 1750270543401
+          modified: 1750278572987
+          isPrivate: false
+          description: ""
+          sortKey: -1750182287721
+        method: GET
+        body:
+          mimeType: application/x-www-form-urlencoded
+        headers:
+          - name: Content-Type
+            value: application/x-www-form-urlencoded
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: none
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: managers
+    meta:
+      id: fld_9e370269de9349a1af54ba81d1a9dac7
+      created: 1750183427972
+      modified: 1750183433167
+      sortKey: -1749751119682.4375
+      description: ""
+    children:
+      - url: "{{ _.base_url }}groups/manager/users/"
+        name: 1. Add User To Manager Group (staff)
+        meta:
+          id: req_38c17c7771b545d19dec6ceab9264aa0
+          created: 1749747618188
+          modified: 1750290908378
+          isPrivate: false
+          description: ""
+          sortKey: -1750183435451
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: username
+              value: newUser
+              description: ""
+              disabled: false
+              id: pair_8101a17917e3400aaa6a35d91ed67c01
+        parameters:
+          - name: username
+            value: somenewuser
+            disabled: false
+            id: pair_9be28cd0f05f4f07b4da4f92caee075a
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access_manager }}"
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}groups/manager/users/"
+        name: 2. Managers can view managers (jwt)
+        meta:
+          id: req_4c2e9c9d8e854dc18367a8c663cc3a81
+          created: 1750113081873
+          modified: 1750203284556
+          isPrivate: false
+          description: ""
+          sortKey: -1750183435351
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access_manager }}"
+          prefix: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}menu-items/featured/"
+        name: Managers can view featured item
+        meta:
+          id: req_e59ef5532005460e9e1688d3c5c2b0eb
+          created: 1750189140180
+          modified: 1750189836317
+          isPrivate: false
+          description: ""
+          sortKey: -1750182861486
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access }}"
+          prefix: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}menu-items/featured/"
+        name: 6. Managers can update featured item
+        meta:
+          id: req_567d6c1e8371445784dc1e188bb1ae8b
+          created: 1750189825469
+          modified: 1750189932942
+          isPrivate: false
+          description: ""
+          sortKey: -1750182574553.5
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"item_id": 4
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access }}"
+          prefix: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: cart_and_order
+    meta:
+      id: fld_e07ed451c9cc464bb18a531b2607e98a
+      created: 1750190391799
+      modified: 1750191921457
+      sortKey: -1749745407619
+      description: ""
+    children:
+      - url: "{{ _.base_url }}orders/1/"
+        name: 8. Manager can (Re-)Assign Order to Delivery User
+        meta:
+          id: req_0cf99e316b1e46469a8d3a5b5dcf8058
+          created: 1750190171793
+          modified: 1750288034484
+          isPrivate: false
+          description: ""
+          sortKey: -1750200681467
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"delivery_crew": 2
+            }
+        parameters:
+          - id: pair_577e8987f4fd41e59a151ad6196369e7
+            name: delivery_crew
+            value: "1"
+            description: ""
+            disabled: false
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access_manager }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}cart-items/"
+        name: User views their Cart (items)
+        meta:
+          id: req_82b048b06f704d21b929ba097e9e18fd
+          created: 1750190402422
+          modified: 1750194171113
+          isPrivate: false
+          description: ""
+          sortKey: -1750190402622
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access_user }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}cart-items/"
+        name: User Adds Item to their Cart
+        meta:
+          id: req_512bab87a85a4cdca96f1ffbb7b55fee
+          created: 1750192286696
+          modified: 1750194156980
+          isPrivate: false
+          description: ""
+          sortKey: -1750190402522
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"menuitem": 1,
+            	"quantity": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access_user }}"
+          prefix: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}cart-items/checkout/"
+        name: User Checks out Cart to Order
+        meta:
+          id: req_2ed351fb863746708819fb0ac46267f3
+          created: 1750192997769
+          modified: 1750194709152
+          isPrivate: false
+          description: ""
+          sortKey: -1750190229450.25
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"menuitem": 2,
+            	"quantity": 2
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access_user }}"
+          prefix: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}orders/"
+        name: View my Orders (user)
+        meta:
+          id: req_a1a94f2e42bc49f0b5782a4a9e84873b
+          created: 1750193087675
+          modified: 1750199896581
+          isPrivate: false
+          description: ""
+          sortKey: -1750190229350.25
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access_user }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}orders/"
+        name: View all Orders (manager)
+        meta:
+          id: req_908945cc1d4049829e6ee6b16d5b87f4
+          created: 1750199911461
+          modified: 1750199920571
+          isPrivate: false
+          description: ""
+          sortKey: -1750190200571.625
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}orders/1/"
+        name: 9. Delivery Crew can update order as delivered
+        meta:
+          id: req_da9119feef074d2f8e668961e1447d82
+          created: 1750202353154
+          modified: 1750288911569
+          isPrivate: false
+          description: ""
+          sortKey: -1750195541994.5
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"status": true
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.2.0
+        authentication:
+          type: bearer
+          token: "{{ _.jwt_access_delivery }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - url: http://localhost:8000/api/secret
+    name: api/secret
+    meta:
+      id: req_37b1e24593b24923b8a89637ee1b34ab
+      created: 1749741287663
+      modified: 1749746087583
+      isPrivate: false
+      description: ""
+      sortKey: -1749741287663
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5NzQ2MjE5LCJpYXQiOjE3NDk3NDU5MTksImp0aSI6ImRjM2VhNzkzYTM1MjRmOTZiZDY5NzFmMDhjMGIwNjNiIiwidXNlcl9pZCI6Mn0.RPHhqWlfmFmJ-E0MsRGdA-y-rqp25r9UBwck2X_4PDM
+      prefix: Bearer
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8000/auth/users/
+    name: get auth users
+    meta:
+      id: req_fb5f3a714bf94b66a41c17c7027ab593
+      created: 1749742827149
+      modified: 1750271139911
+      isPrivate: false
+      description: ""
+      sortKey: -1749742827149
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    authentication:
+      type: bearer
+      token: "{{ _.jwt_access_manager }}"
+      prefix: ""
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8000/auth/users
+    name: auth/users
+    meta:
+      id: req_19a967187fba4aef8e4cfd2c525594b0
+      created: 1749743818431
+      modified: 1750181324532
+      isPrivate: false
+      description: ""
+      sortKey: -1749743818431
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+        id: pair_1db6ec8071394311b23702932e009db3
+    authentication:
+      type: bearer
+      token: 980d735a077bdcf41ebac69bc1beab509f25ae70
+      prefix: token
+      disabled: false
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8000/auth/users/
+    name: User Registration
+    meta:
+      id: req_63330e8e897f4b8e94a6f1d715912174
+      created: 1749746996807
+      modified: 1750191925383
+      isPrivate: false
+      description: ""
+      sortKey: -1749743322790
+    method: POST
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - name: username
+          value: newUser
+          description: ""
+          disabled: false
+          id: pair_1233e84747c5414ebef59dc8bbcf3ba9
+        - name: email
+          value: somenewuser@gmail.com
+          description: ""
+          disabled: false
+          id: pair_90871c6a0a0f4db28a710debad225e55
+        - name: password
+          value: somenewuserpassword123
+          description: ""
+          disabled: false
+          id: pair_c8b90d78a04f47c38ccf351398b8d774
+    headers:
+      - name: Content-Type
+        value: application/x-www-form-urlencoded
+      - name: User-Agent
+        value: insomnia/11.2.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url_drf }}ratings"
+    name: Add Ratings to Menu Item
+    meta:
+      id: req_067cce8b73e341ee819c7e6d62b21bba
+      created: 1749749090243
+      modified: 1750188851958
+      isPrivate: false
+      description: ""
+      sortKey: -1749749090243
+    method: POST
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - name: menuitem_id
+          value: "1"
+          description: ""
+          disabled: false
+          id: pair_9bd18a8431744031838704fa781115ec
+        - name: rating
+          value: "5"
+          description: ""
+          disabled: false
+          id: pair_1cdf7fbb35f94c41b0a3ff02f5d0aff7
+        - id: pair_498ad0a81e4840b09b39285ecf0b7069
+          name: user
+          value: "2"
+          description: ""
+          disabled: false
+    headers:
+      - name: Content-Type
+        value: application/x-www-form-urlencoded
+      - name: User-Agent
+        value: insomnia/11.2.0
+    authentication:
+      type: bearer
+      token: "{{ _.jwt_access }}"
+      prefix: ""
+      disabled: false
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_483b03cc159742d3969c9ed06010fb78
+    created: 1749573445409
+    modified: 1750288108284
+environments:
+  name: Base Environment
+  meta:
+    id: env_9895b0d55a194af3b8ef47fe5e8629a7
+    created: 1749573445406
+    modified: 1750288108286
+    isPrivate: false
+  data:
+    password_admin: admin
+    username_admin: admin
+    domain: localhost:8000
+    base_url: "{{ _.protocol }}://{{ _.domain }}{{ _.url_path }}"
+    base_url_drf: "{{ _.protocol }}://{{ _.domain }}/drf/"
+    url_path: /api/
+    protocol: http
+    jwt_refresh: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MDg3NTIwOCwiaWF0IjoxNzUwMjcwNDA4LCJqdGkiOiI3ZTUwY2Y1YTA3Mjc0MWQwODFkN2M3ZDY3NWQ0MzUzZiIsInVzZXJfaWQiOjF9.7eUe0D8Ax9lyl_sBRv7KSpOq1kKjcpC_pxCUlMi31Zs
+    jwt_access: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwMjg0ODA4LCJpYXQiOjE3NTAyNzA0MDgsImp0aSI6IjczNjg5MDk5NGYyZDQ5MGViNTJhMTJkNDY0ZTkwYjk0IiwidXNlcl9pZCI6MX0.f3ot6mNR-qSthAwgHOongPlOHPwse03MIh73DWVf6LA
+    jwt_access_user: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwMzAxNDI2LCJpYXQiOjE3NTAyODcwMjYsImp0aSI6Ijg4MzIyYTk3ZGJiYzRhYjQ5MDdlMTE3MTJiNGY0OWViIiwidXNlcl9pZCI6OX0.cMkLIog03MD3okJUhYUNIeorST1Ivvkfkkn5XRtrAXw
+    jwt_access_delivery: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwMzAyNTA4LCJpYXQiOjE3NTAyODgxMDgsImp0aSI6ImRhYjJiMGRmNmVjZTQ5YzdhN2RjMDQ5NWMyMjUwN2I5IiwidXNlcl9pZCI6OH0.QsJN1pH7p0ImUF_uzfqf27wtwzLETWnRJO5gUv4R6fQ
+    jwt_access_manager: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwMzAxNDAzLCJpYXQiOjE3NTAyODcwMDMsImp0aSI6IjdkN2RhNmRiMDMyYjRlNzVhMmY1NWE2NWNkMjY2MzYyIiwidXNlcl9pZCI6MTB9._R6VFIpoAZojGAlXhGUqtwNcEgSfxK_zFFe9Rpx0Jmc
+    jwt_refresh_delivery: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MDI4OTQxNywiaWF0IjoxNzUwMjAzMDE3LCJqdGkiOiI5OThjYWJkZTgwM2Q0MDUyYjVjZmViNzA5OTE2NDg1ZCIsInVzZXJfaWQiOjEwfQ.NVc3D-cQ2QiOpTUWvOXz11LDOYhyZvLCtb3cxC06GE0
+    jwt_refresh_user: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MDI4OTMzMSwiaWF0IjoxNzUwMjAyOTMxLCJqdGkiOiI5MWM0YWM4ZWNkODI0ZTI3YjVhNTZhMzg1NDFiODVkNyIsInVzZXJfaWQiOjl9.4va_Rzo73qSjk0VpranJYg9bIQ_CRWWEuP4LnZriBX8
