@@ -6,7 +6,6 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 router = DefaultRouter()
 router.register(r"categories", views.CategoriesView, basename="categories")
-
 router.register(r"cart-items", views.CartItemsView, basename="cart-items")
 router.register(r"order-items", views.OrderItemsView, basename="order-items")
 

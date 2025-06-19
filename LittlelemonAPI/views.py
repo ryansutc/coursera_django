@@ -13,6 +13,7 @@ from .serializers import (
     CategorySerializer,
     CartItemSerializer,
     OrderSerializer,
+    CheckoutResponseSerializer
 )
 from rest_framework.decorators import (
     api_view,
@@ -32,6 +33,7 @@ from drf_spectacular.utils import (
     OpenApiParameter,
     OpenApiResponse,
 )
+from drf_spectacular.types import OpenApiTypes
 
 # class MenuItemsView(generics.ListCreateAPIView):
 #     # make getting related data more efficient!!!
@@ -43,14 +45,6 @@ from drf_spectacular.utils import (
     methods=["GET", "POST"],
     request=MenuItemSerializer,
     responses={200: MenuItemSerializer(many=True), 201: MenuItemSerializer},
-    parameters=[
-        OpenApiParameter("category", str, OpenApiParameter.QUERY),
-        OpenApiParameter("to_price", float, OpenApiParameter.QUERY),
-        OpenApiParameter("search", str, OpenApiParameter.QUERY),
-        OpenApiParameter("ordering", str, OpenApiParameter.QUERY),
-        OpenApiParameter("perpage", int, OpenApiParameter.QUERY),
-        OpenApiParameter("page", int, OpenApiParameter.QUERY),
-    ],
     description="List or create menu items. POST is manager-only.",
     tags=["Menu Items"],
 )
@@ -93,11 +87,17 @@ def menu_items(request):
         serialized_item.save()
         return Response(serialized_item.data, status=status.HTTP_201_CREATED)
 
-
+@extend_schema(
+    methods=["GET", "PUT", "PATCH", "DELETE"],
+    request=MenuItemSerializer,
+    responses={
+        200: MenuItemSerializer,},
+    description="view or modify a single menu item.",
+)
 @api_view(["GET", "PUT", "PATCH", "DELETE"])
 def single_item(request, pk):
 
-    # Only allow non-GET methods for admin users
+    # Only admin/staff users can use non-GET methods
     if request.method != "GET" and not request.user.is_staff:
         return Response({"detail": "Admin only."}, status=status.HTTP_403_FORBIDDEN)
 
@@ -122,7 +122,17 @@ def single_item(request, pk):
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+@extend_schema(
+    methods=["GET", "POST"],
+    request=MenuItemSerializer,
+    responses={
+        200: MenuItemSerializer,
+        404: OpenApiResponse(description="No special item for today."),
+        403: OpenApiResponse(description="Admin only."),
+        400: OpenApiResponse(description="Item ID is required."),
+    },
+    description="view/update featured menu item.",
+)
 @api_view(["GET", "POST"])
 def menu_item_featured(request):
     """
@@ -187,7 +197,16 @@ def throttle_check_auth(request):
         status=status.HTTP_200_OK,
     )
 
-
+@extend_schema(
+    methods=["POST", "GET"],
+    request=None,
+    responses={
+        200: OpenApiResponse(description="List of managers or success message."),
+        400: OpenApiResponse(description="Username is required."),
+        403: OpenApiResponse(description="Only staff users can add/delete managers."),
+        405: OpenApiResponse(description="Method not allowed."),
+    },
+)
 @api_view(["POST", "GET"])
 @permission_classes([IsManagerUser])
 def managers(request):
@@ -256,7 +275,12 @@ class OrderItemsView(viewsets.ModelViewSet):
     def get_queryset(self):
         return CartItem.objects.filter(user=self.request.user.id)
 
-
+@extend_schema(
+    operation_id="api_order_list",
+    description="View to see orders. Managers see all, users see " +
+    "their own orders and delivery crew see orders assigned to them.",
+    responses={200: OrderSerializer(many=True)},
+)
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def order(request):
@@ -284,7 +308,27 @@ def order(request):
         return Response(serialized_order.data)
     
 
-
+@extend_schema(
+    operation_id="api_order_details_get",
+    description="Retrieve a specific order.",
+    request=None,
+    responses={200: OrderSerializer, 403: OpenApiResponse(response=OpenApiTypes.OBJECT, description="Forbidden")},
+    methods=["GET"]
+)
+@extend_schema(
+    operation_id="api_order_details_patch",
+    description="Update a specific order.",
+    request=None,
+    responses={200: OrderSerializer, 403: OpenApiResponse(response=OpenApiTypes.OBJECT, description="Forbidden")},
+    methods=["PATCH"]
+)
+@extend_schema(
+    operation_id="api_order_details_delete",
+    description="Delete a specific order.",
+    request=None,
+    responses={204: OpenApiResponse(description="Order deleted."), 403: OpenApiResponse(response=OpenApiTypes.OBJECT, description="Forbidden")},
+    methods=["DELETE"]
+)
 @api_view(["GET", "DELETE", "PATCH"])
 @permission_classes([IsAuthenticated])
 def order_detail(request, pk):
@@ -339,7 +383,18 @@ def order_detail(request, pk):
         {"detail": "Method not allowed."}, status=status.HTTP_405_METHOD_NOT_ALLOWED
     )
 
-
+@extend_schema(
+    operation_id="api_checkout",
+    description="View to checkout the cart items and create an order.",
+    request=None,
+    responses={
+        201: CheckoutResponseSerializer,
+        400: OpenApiResponse(
+            response=OpenApiTypes.OBJECT,
+            description="Your cart is empty."
+        ),
+    }
+)
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def checkout(request):

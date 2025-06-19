@@ -124,3 +124,7 @@ class OrderSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError("Only status can be updated.")
                 return super().validate(attrs)
         return super().validate(attrs)
+
+class CheckoutResponseSerializer(serializers.Serializer):
+    detail = serializers.CharField()
+    order_id = serializers.IntegerField()
