@@ -86,7 +86,8 @@ collection:
           created: 1749741624564
           modified: 1750110979915
           isPrivate: false
-          description: This is the login endpoint for logging into Django Admin itself,
+          description:
+            This is the login endpoint for logging into Django Admin itself,
             using the Django native token system.
           sortKey: -1749753071111
         method: POST
@@ -582,7 +583,8 @@ collection:
           created: 1750188946881
           modified: 1750189064151
           isPrivate: false
-          description: Test that one of the endpoints auto-generated with the help of the
+          description:
+            Test that one of the endpoints auto-generated with the help of the
             djoser library/plugin work.
           sortKey: -1750188946881
         method: GET
@@ -1406,10 +1408,10 @@ environments:
     base_url_drf: "{{ _.protocol }}://{{ _.domain }}/drf/"
     url_path: /api/
     protocol: http
-    jwt_refresh: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MDg3NTIwOCwiaWF0IjoxNzUwMjcwNDA4LCJqdGkiOiI3ZTUwY2Y1YTA3Mjc0MWQwODFkN2M3ZDY3NWQ0MzUzZiIsInVzZXJfaWQiOjF9.7eUe0D8Ax9lyl_sBRv7KSpOq1kKjcpC_pxCUlMi31Zs
-    jwt_access: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwMjg0ODA4LCJpYXQiOjE3NTAyNzA0MDgsImp0aSI6IjczNjg5MDk5NGYyZDQ5MGViNTJhMTJkNDY0ZTkwYjk0IiwidXNlcl9pZCI6MX0.f3ot6mNR-qSthAwgHOongPlOHPwse03MIh73DWVf6LA
-    jwt_access_user: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwMzAxNDI2LCJpYXQiOjE3NTAyODcwMjYsImp0aSI6Ijg4MzIyYTk3ZGJiYzRhYjQ5MDdlMTE3MTJiNGY0OWViIiwidXNlcl9pZCI6OX0.cMkLIog03MD3okJUhYUNIeorST1Ivvkfkkn5XRtrAXw
-    jwt_access_delivery: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwMzAyNTA4LCJpYXQiOjE3NTAyODgxMDgsImp0aSI6ImRhYjJiMGRmNmVjZTQ5YzdhN2RjMDQ5NWMyMjUwN2I5IiwidXNlcl9pZCI6OH0.QsJN1pH7p0ImUF_uzfqf27wtwzLETWnRJO5gUv4R6fQ
-    jwt_access_manager: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwMzAxNDAzLCJpYXQiOjE3NTAyODcwMDMsImp0aSI6IjdkN2RhNmRiMDMyYjRlNzVhMmY1NWE2NWNkMjY2MzYyIiwidXNlcl9pZCI6MTB9._R6VFIpoAZojGAlXhGUqtwNcEgSfxK_zFFe9Rpx0Jmc
-    jwt_refresh_delivery: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MDI4OTQxNywiaWF0IjoxNzUwMjAzMDE3LCJqdGkiOiI5OThjYWJkZTgwM2Q0MDUyYjVjZmViNzA5OTE2NDg1ZCIsInVzZXJfaWQiOjEwfQ.NVc3D-cQ2QiOpTUWvOXz11LDOYhyZvLCtb3cxC06GE0
-    jwt_refresh_user: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MDI4OTMzMSwiaWF0IjoxNzUwMjAyOTMxLCJqdGkiOiI5MWM0YWM4ZWNkODI0ZTI3YjVhNTZhMzg1NDFiODVkNyIsInVzZXJfaWQiOjl9.4va_Rzo73qSjk0VpranJYg9bIQ_CRWWEuP4LnZriBX8
+    jwt_refresh:
+    jwt_access:
+    jwt_access_user:
+    jwt_access_delivery:
+    jwt_access_manager:
+    jwt_refresh_delivery:
+    jwt_refresh_user:
