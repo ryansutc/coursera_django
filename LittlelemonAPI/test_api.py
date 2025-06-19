@@ -36,19 +36,19 @@ class TestMenuItemsEndpoints(APITestSetupMixin, APITestCase):
         """
         Test that the order detail URL is constructed correctly.
         """
-        response = self.client.get(reverse("menu-item", kwargs={"pk": self.menu_item.id}))
+        response = self.client.get(reverse("menu-item-detail", kwargs={"pk": self.menu_item.id}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["title"], self.menu_item.title)
 
     def test_menu_items_list(self):
-        url = reverse("menu-items")
+        url = reverse("menu-item-list")
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(len(resp.data) >= 1)
 
 
     def test_menu_items_post_manager_only(self):
-        url = reverse("menu-items")
+        url = reverse("menu-item-list")
         data = {
             "title": "Burger",
             "price": 9,
@@ -68,13 +68,13 @@ class TestMenuItemsEndpoints(APITestSetupMixin, APITestCase):
         self.assertEqual(resp.status_code, 201)
 
     def test_single_item_get(self):
-        url = reverse("menu-item", kwargs={"pk": self.menu_item.id})
+        url = reverse("menu-item-detail", kwargs={"pk": self.menu_item.id})
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.data["title"], self.menu_item.title)
 
     def test_single_item_edit_delete_admin_only(self):
-        url = reverse("menu-item", kwargs={"pk": self.menu_item.id})
+        url = reverse("menu-item-detail", kwargs={"pk": self.menu_item.id})
 
         # PATCH as non-admin
         self.client.force_authenticate(self.user)
@@ -184,7 +184,7 @@ class TestCartAndOrderEndpoints(APITestSetupMixin, APITestCase):
         super().setUp()
         self.cart_url = reverse("cart-items-list")
         self.checkout_url = reverse("checkout")
-        self.order_url = reverse("order")
+        self.order_url = reverse("order-list")
         self.cart_item = CartItem.objects.create(
             user=self.user, menuitem=self.menu_item, quantity=2
         )
@@ -228,8 +228,8 @@ class TestCartAndOrderEndpoints(APITestSetupMixin, APITestCase):
         order = Order.objects.create(
             user=self.user, total=10, date="2024-01-01", delivery_crew=self.delivery
         )
-        url = reverse("orders", kwargs={"pk": order.id})
-        # User can GET own order
+        url = reverse("order-detail", kwargs={"pk": order.id})
+        # User can GET own order by the id
         self.client.force_authenticate(self.user)
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)

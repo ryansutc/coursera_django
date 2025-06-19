@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "djoser",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -144,6 +145,7 @@ REST_FRAMEWORK = {
         "user": "5/minute",
         "ten": "10/minute",
     },
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 DJOSER = {
@@ -161,3 +163,10 @@ else:
         "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),  # Shorter for production
         "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     }
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Little Lemon API",
+    "DESCRIPTION": "API for the Little Lemon restaurant project",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}

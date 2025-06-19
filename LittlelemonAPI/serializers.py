@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Category, MenuItem, CartItem, Order
 from decimal import Decimal
 import bleach
+from typing import Any, Dict
 
 from django.db import IntegrityError
 
@@ -11,7 +12,7 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ["id", "title", "slug"]
 
-    def validate_slug(self, value):
+    def validate_slug(self, value: str) -> str:
         if not value.isalnum():
             raise serializers.ValidationError("Slug must be alphanumeric.")
         return value
@@ -28,7 +29,7 @@ class MenuItemSerializer(serializers.HyperlinkedModelSerializer):
     #
     # )
 
-    def validate_title(self, value):
+    def validate_title(self, value: str) -> str:
         return bleach.clean(value)
 
     class Meta:
@@ -45,19 +46,19 @@ class MenuItemSerializer(serializers.HyperlinkedModelSerializer):
             "featured",
         ]
 
-    def calculate_tax(self, product: MenuItem):
+    def calculate_tax(self, product: MenuItem) -> str:
         # for financial calculations, float cannot be relied upon. floating-point. 0.2
         price = product.price * Decimal(1.1)
         return f"{price:.2f}"
 
-    def validate(self, attrs):
+    def validate(self, attrs: Dict[str, Any]) -> Dict[str, Any]:
         if "price" in attrs and attrs["price"] < 2:
             raise serializers.ValidationError("Price should not be less than 2.0")
         if "inventory" in attrs and attrs["inventory"] < 0:
             raise serializers.ValidationError("Stock cannot be negative")
         return super().validate(attrs)
 
-    def update(self, instance, validated_data):
+    def update(self, instance: MenuItem, validated_data: Dict[str, Any]) -> MenuItem:
         # update the category_id field
         category_id = validated_data.pop("category_id", None)
         if category_id is not None:
@@ -76,7 +77,7 @@ class CartItemSerializer(serializers.ModelSerializer):
         model = CartItem
         fields = ["id", "menuitem", "quantity"]
 
-    def validate(self, attrs):
+    def validate(self, attrs: Dict[str, Any]) -> Dict[str, Any]:
         if "quantity" not in attrs:
             raise serializers.ValidationError("Quantity is required.")
 
@@ -85,7 +86,7 @@ class CartItemSerializer(serializers.ModelSerializer):
         attrs["user_id"] = self.context["request"].user.id
         return super().validate(attrs)
 
-    def create(self, validated_data):
+    def create(self, validated_data: Dict[str, Any]) -> CartItem:
         # Attach the user from context
         validated_data["user_id"] = self.context["request"].user.id
         try:
@@ -101,8 +102,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ["id", "user", "delivery_crew", "status", "total", "date"]
 
-    def validate(self, attrs):
-
+    def validate(self, attrs: Dict[str, Any]) -> Dict[str, Any]:
         usergroup = self.context["user"].groups
 
         if (

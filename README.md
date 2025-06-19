@@ -39,7 +39,7 @@ python -Wa manage.py test tests
 python manage.py test LittlelemonAPI.tests.TestMenuItemsEndpoints.test_menu_items_post_admin_only
 ```
 
-Backup database to fixtures:
+#### Backup database to fixtures:
 
 ```
 python manage.py dumpdata auth > ./fixtures/littlelemon_auth.json
@@ -47,4 +47,9 @@ python manage.py dumpdata LittlelemonAPI > ./fixtures/littlelemon_api.json
 python manage.py dumpdata contenttypes > ./fixtures/littlelemon_contenttypes.json
 ```
 
+#### Create Swagger / OpenAPI 3 schema docs
+
+```
+python manage.py spectacular --color --file schema.yml
 Personal notes: https://gist.github.com/ryansutc/64b3a4b17442cb50c75359dec3d96e6d
+```

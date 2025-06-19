@@ -10,6 +10,7 @@ djangorestframework-xml = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 bleach = "*"
+drf-spectacular = "*"
 
 [dev-packages]
 flake8 = "*"
@@ -18,6 +19,7 @@ black = "*"
 ruff = "*"
 pytest = "*"
 pytest-django = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.11"

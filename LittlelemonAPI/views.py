@@ -26,16 +26,36 @@ from .throttles import TenCallsPerMinute
 
 from django.core.paginator import Paginator, EmptyPage
 
+from drf_spectacular.utils import (
+    extend_schema,
+    extend_schema_view,
+    OpenApiParameter,
+    OpenApiResponse,
+)
+
 # class MenuItemsView(generics.ListCreateAPIView):
 #     # make getting related data more efficient!!!
 #     items = MenuItem.objects.select_related("category").all()
 #     queryset = MenuItem.objects.all()
 #     serializer_class = MenuItemSerializer
 
-
+@extend_schema(
+    methods=["GET", "POST"],
+    request=MenuItemSerializer,
+    responses={200: MenuItemSerializer(many=True), 201: MenuItemSerializer},
+    parameters=[
+        OpenApiParameter("category", str, OpenApiParameter.QUERY),
+        OpenApiParameter("to_price", float, OpenApiParameter.QUERY),
+        OpenApiParameter("search", str, OpenApiParameter.QUERY),
+        OpenApiParameter("ordering", str, OpenApiParameter.QUERY),
+        OpenApiParameter("perpage", int, OpenApiParameter.QUERY),
+        OpenApiParameter("page", int, OpenApiParameter.QUERY),
+    ],
+    description="List or create menu items. POST is manager-only.",
+    tags=["Menu Items"],
+)
 @api_view(["GET", "POST"])
 def menu_items(request):
-
     # Only allow POST method for manager users
     user = request.user
     if request.method != "GET" and not user.groups.filter(name="manager").exists(): 

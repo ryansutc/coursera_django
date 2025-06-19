@@ -10,9 +10,15 @@ router.register(r"categories", views.CategoriesView, basename="categories")
 router.register(r"cart-items", views.CartItemsView, basename="cart-items")
 router.register(r"order-items", views.OrderItemsView, basename="order-items")
 
+# make names for url patterns match the viewset name patterns as per:
+# https://www.django-rest-framework.org/api-guide/routers/
+# /users/ -> user-list
+# /users/<int:pk>/ -> user-detail
+
+
 urlpatterns = [
-    path("menu-items/", views.menu_items, name="menu-items"),
-    path("menu-items/<int:pk>/", views.single_item, name="menu-item"),
+    path("menu-items/", views.menu_items, name="menu-item-list"),
+    path("menu-items/<int:pk>/", views.single_item, name="menu-item-detail"),
     path("menu-items/featured/", views.menu_item_featured, name="featured"),
     path("cart-items/checkout/", views.checkout, name="checkout"),
     path("", include(router.urls)),
@@ -23,10 +29,10 @@ urlpatterns = [
         "api-token-auth/", obtain_auth_token
     ),  # django rest framework token authentication endpoint (POST)
     path("groups/manager/users/", views.managers, name="managers"),
-    path("orders/", views.order, name="order"),
+    path("orders/", views.order, name="order-list"),
     path(
         "orders/<int:pk>/",
         views.order_detail,
-        name="orders",
+        name="order-detail",
     ),
 ]
