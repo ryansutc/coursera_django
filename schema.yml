@@ -35,7 +35,6 @@ paths:
   /api/cart-items/:
     get:
       operationId: api_cart_items_list
-      description: View to manage the cart.
       tags:
       - api
       security:
@@ -53,7 +52,6 @@ paths:
           description: ''
     post:
       operationId: api_cart_items_create
-      description: View to manage the cart.
       tags:
       - api
       requestBody:
@@ -82,7 +80,6 @@ paths:
   /api/cart-items/{id}/:
     get:
       operationId: api_cart_items_retrieve
-      description: View to manage the cart.
       parameters:
       - in: path
         name: id
@@ -105,7 +102,6 @@ paths:
           description: ''
     put:
       operationId: api_cart_items_update
-      description: View to manage the cart.
       parameters:
       - in: path
         name: id
@@ -140,7 +136,6 @@ paths:
           description: ''
     patch:
       operationId: api_cart_items_partial_update
-      description: View to manage the cart.
       parameters:
       - in: path
         name: id
@@ -174,7 +169,6 @@ paths:
           description: ''
     delete:
       operationId: api_cart_items_destroy
-      description: View to manage the cart.
       parameters:
       - in: path
         name: id
@@ -373,9 +367,6 @@ paths:
   /api/groups/manager/users/:
     get:
       operationId: api_groups_manager_users_retrieve
-      description: |-
-        view users who are managers (GET) or
-        Add a user to the staff or admin group
       tags:
       - api
       security:
@@ -393,9 +384,6 @@ paths:
           description: Method not allowed.
     post:
       operationId: api_groups_manager_users_create
-      description: |-
-        view users who are managers (GET) or
-        Add a user to the staff or admin group
       tags:
       - api
       security:
@@ -652,7 +640,6 @@ paths:
   /api/order-items/:
     get:
       operationId: api_order_items_list
-      description: View to manage the order.
       tags:
       - api
       security:
@@ -670,7 +657,6 @@ paths:
           description: ''
     post:
       operationId: api_order_items_create
-      description: View to manage the order.
       tags:
       - api
       requestBody:
@@ -699,7 +685,6 @@ paths:
   /api/order-items/{id}/:
     get:
       operationId: api_order_items_retrieve
-      description: View to manage the order.
       parameters:
       - in: path
         name: id
@@ -722,7 +707,6 @@ paths:
           description: ''
     put:
       operationId: api_order_items_update
-      description: View to manage the order.
       parameters:
       - in: path
         name: id
@@ -757,7 +741,6 @@ paths:
           description: ''
     patch:
       operationId: api_order_items_partial_update
-      description: View to manage the order.
       parameters:
       - in: path
         name: id
@@ -791,7 +774,6 @@ paths:
           description: ''
     delete:
       operationId: api_order_items_destroy
-      description: View to manage the order.
       parameters:
       - in: path
         name: id
@@ -1599,9 +1581,8 @@ components:
           type: integer
         quantity:
           type: integer
-          maximum: 9223372036854775807
+          maximum: 40
           minimum: 0
-          format: int64
       required:
       - id
       - menuitem
@@ -1722,9 +1703,8 @@ components:
           type: integer
         quantity:
           type: integer
-          maximum: 9223372036854775807
+          maximum: 40
           minimum: 0
-          format: int64
     PatchedCategory:
       type: object
       properties:
