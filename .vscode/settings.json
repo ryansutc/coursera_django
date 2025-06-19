@@ -1,0 +1,15 @@
+{
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.ruff": "explicit",
+      "source.fixAll": "always"
+    }
+  },
+  "editor.formatOnSave": true,
+
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": ["LittlelemonAPI"],
+  "python.envFile": "${workspaceFolder}/.env"
+}

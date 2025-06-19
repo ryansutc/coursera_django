@@ -1,4 +1,4 @@
-# coursera_django
+# coursera django project
 
 Example Django App from Coursera Course
 Link: https://www.coursera.org/professional-certificates/meta-back-end-developer
@@ -7,7 +7,7 @@ Link: https://www.coursera.org/professional-certificates/meta-back-end-developer
 
 Doing the final project as a refresher.
 
-### To run
+#### To build your python env and install packages
 
 ```
 mkdir .venv
@@ -15,16 +15,22 @@ pipenv shell
 pipenv install ___
 ```
 
+#### To run app
+
 ```
-python3 manage.py makemigrations # To compile the migrations
-python3 manage.py migrate  # To migrate the changes in Database
+# set up database w. dummy data
+./loaddata.sh
 ```
+
+then do:
 
 ```
 python manage.py runserver
 ```
 
-testing
+or hit f5.
+
+#### testing
 
 ```
 python -Wa manage.py test tests
