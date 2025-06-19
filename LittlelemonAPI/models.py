@@ -1,7 +1,7 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from rest_framework.validators import UniqueValidator
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -39,7 +39,7 @@ class CartItem(models.Model):
         MenuItem,
         on_delete=models.CASCADE,
     )
-    quantity = models.SmallIntegerField(default=1, validators=[MinValueValidator(0)])
+    quantity = models.SmallIntegerField(default=1, validators=[MinValueValidator(0), MaxValueValidator(40)])
 
     class Meta:
         unique_together = ("menuitem", "user")
