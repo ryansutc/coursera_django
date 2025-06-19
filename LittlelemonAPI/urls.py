@@ -22,7 +22,7 @@ urlpatterns = [
     path(
         "api-token-auth/", obtain_auth_token
     ),  # django rest framework token authentication endpoint (POST)
-    path("groups/manager/users/", views.managers),
+    path("groups/manager/users/", views.managers, name="managers"),
     path("orders/", views.order, name="order"),
     path(
         "orders/<int:pk>/",

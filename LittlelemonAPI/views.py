@@ -36,9 +36,10 @@ from django.core.paginator import Paginator, EmptyPage
 @api_view(["GET", "POST"])
 def menu_items(request):
 
-    # Only allow POST method for admin users
-    if request.method != "GET" and not request.user.is_staff:
-        return Response({"detail": "Admin only."}, status=status.HTTP_403_FORBIDDEN)
+    # Only allow POST method for manager users
+    user = request.user
+    if request.method != "GET" and not user.groups.filter(name="manager").exists(): 
+        return Response({"detail": "managers only."}, status=status.HTTP_403_FORBIDDEN)
 
     if request.method == "GET":
         items = MenuItem.objects.select_related("category").all()
@@ -189,11 +190,21 @@ def managers(request):
             {"error": "Username is required."}, status=status.HTTP_400_BAD_REQUEST
         )
     elif request.method == "POST":
+        if not request.user.is_staff:
+            return Response(
+                {"error": "Only 'staff' users can add managers."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
         user = get_object_or_404(User, username=username)
         group = get_object_or_404(Group, name="manager")
         user.groups.add(group)
         user.save()
     elif request.method == "DELETE":
+        if not request.user.is_staff:
+            return Response(
+                {"error": "Only 'staff' users can delete managers."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
         managers.user_set.remove(user)
     else:
         return Response(
@@ -226,7 +237,7 @@ class OrderItemsView(viewsets.ModelViewSet):
         return CartItem.objects.filter(user=self.request.user.id)
 
 
-@api_view(["GET", "PATCH"])
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def order(request):
     """
@@ -242,7 +253,7 @@ def order(request):
         if user.groups.filter(name="manager").exists():
             # Managers can see all orders
             orders = Order.objects.all()
-        elif user.groups.filter(name="delivery crew").exists():
+        elif user.groups.filter(name="delivery").exists():
             # Delivery crew can see orders assigned to them
             orders = Order.objects.filter(delivery_crew=user)
         else:
@@ -251,6 +262,7 @@ def order(request):
 
         serialized_order = OrderSerializer(orders, many=True)
         return Response(serialized_order.data)
+    
 
 
 @api_view(["GET", "DELETE", "PATCH"])
@@ -284,7 +296,7 @@ def order_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     elif request.method == "PATCH":
-        if not user.groups.filter(name="manager").exists():
+        if not user.groups.filter(name="manager").exists() and not user.groups.filter(name="delivery").exists():
             return Response(
                 {"detail": "You do not have permission to edit orders."},
                 status=status.HTTP_403_FORBIDDEN,

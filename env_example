@@ -1,0 +1,9 @@
+# make a copy of this file as .env
+
+# for unittests library if we use
+MANAGE_PY_PATH=manage.py
+
+# for pytest_django
+DJANGO_SETTINGS_MODULE=LittleLemon.settings
+
+# your additional env vars here.

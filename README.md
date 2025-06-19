@@ -28,6 +28,9 @@ testing
 
 ```
 python -Wa manage.py test tests
+
+# a specific test
+python manage.py test LittlelemonAPI.tests.TestMenuItemsEndpoints.test_menu_items_post_admin_only
 ```
 
 Backup database to fixtures:
