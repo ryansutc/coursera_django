@@ -28,7 +28,7 @@ class MenuItem(models.Model):
     price = models.DecimalField(
         max_digits=6, decimal_places=2, validators=[MinValueValidator(2)], db_index=True
     )  # total price = unit price * quantity
-    inventory = models.SmallIntegerField(blank=True, null=True)
+    inventory = models.SmallIntegerField(blank=True, null=True, validators=[MinValueValidator(0), MaxValueValidator(400)])
     category = models.ForeignKey(Category, on_delete=models.PROTECT, default=1)
     featured = models.BooleanField(default=False, db_index=True)
 

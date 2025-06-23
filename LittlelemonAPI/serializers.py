@@ -19,7 +19,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class MenuItemSerializer(serializers.HyperlinkedModelSerializer):
-    stock = serializers.IntegerField(source="inventory", read_only=True)
+    
     price_after_tax = serializers.SerializerMethodField(method_name="calculate_tax")
     category = CategorySerializer(read_only=True)
     category_id = serializers.IntegerField(write_only=True)
@@ -39,7 +39,7 @@ class MenuItemSerializer(serializers.HyperlinkedModelSerializer):
             "title",
             "price",
             "inventory",
-            "stock",
+            
             "price_after_tax",
             "category",
             "category_id",
@@ -55,7 +55,7 @@ class MenuItemSerializer(serializers.HyperlinkedModelSerializer):
         if "price" in attrs and attrs["price"] < 2:
             raise serializers.ValidationError("Price should not be less than 2.0")
         if "inventory" in attrs and attrs["inventory"] < 0:
-            raise serializers.ValidationError("Stock cannot be negative")
+            raise serializers.ValidationError("inventory cannot be negative")
         return super().validate(attrs)
 
     def update(self, instance: MenuItem, validated_data: Dict[str, Any]) -> MenuItem:

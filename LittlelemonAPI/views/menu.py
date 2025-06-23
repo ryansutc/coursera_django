@@ -5,7 +5,7 @@ from LittlelemonAPI.permissions import IsManagerUser
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from drf_spectacular.utils import extend_schema, OpenApiResponse
+from drf_spectacular.utils import extend_schema, OpenApiResponse, extend_schema_view
 from drf_spectacular.types import OpenApiTypes
 from django.core.paginator import Paginator, EmptyPage
 from django.shortcuts import get_object_or_404

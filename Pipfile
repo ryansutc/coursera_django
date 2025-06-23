@@ -11,6 +11,7 @@ djoser = "*"
 djangorestframework-simplejwt = "*"
 bleach = "*"
 drf-spectacular = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 flake8 = "*"

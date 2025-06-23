@@ -8,832 +8,845 @@ paths:
     post:
       operationId: api_api_token_auth_create
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/AuthToken'
+              $ref: "#/components/schemas/AuthToken"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/AuthToken'
+              $ref: "#/components/schemas/AuthToken"
           application/json:
             schema:
-              $ref: '#/components/schemas/AuthToken'
+              $ref: "#/components/schemas/AuthToken"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthToken'
-          description: ''
+                $ref: "#/components/schemas/AuthToken"
+          description: ""
   /api/cart-items/:
     get:
       operationId: api_cart_items_list
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CartItem'
-          description: ''
+                  $ref: "#/components/schemas/CartItem"
+          description: ""
     post:
       operationId: api_cart_items_create
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '201':
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartItem'
-          description: ''
+                $ref: "#/components/schemas/CartItem"
+          description: ""
   /api/cart-items/{id}/:
     get:
       operationId: api_cart_items_retrieve
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this cart item.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this cart item.
+          required: true
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartItem'
-          description: ''
+                $ref: "#/components/schemas/CartItem"
+          description: ""
     put:
       operationId: api_cart_items_update
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this cart item.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this cart item.
+          required: true
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartItem'
-          description: ''
+                $ref: "#/components/schemas/CartItem"
+          description: ""
     patch:
       operationId: api_cart_items_partial_update
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this cart item.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this cart item.
+          required: true
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedCartItem'
+              $ref: "#/components/schemas/PatchedCartItem"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedCartItem'
+              $ref: "#/components/schemas/PatchedCartItem"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedCartItem'
+              $ref: "#/components/schemas/PatchedCartItem"
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartItem'
-          description: ''
+                $ref: "#/components/schemas/CartItem"
+          description: ""
     delete:
       operationId: api_cart_items_destroy
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this cart item.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this cart item.
+          required: true
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '204':
+        "204":
           description: No response body
   /api/cart-items/checkout/:
     post:
       operationId: api_checkout
       description: View to checkout the cart items and create an order.
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '201':
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CheckoutResponse'
-          description: ''
-        '400':
+                $ref: "#/components/schemas/CheckoutResponse"
+          description: ""
+        "400":
           content:
             application/json:
               schema:
                 type: object
                 additionalProperties: {}
           description: Your cart is empty.
+  /api/cart-items/delete/:
+    delete:
+      operationId: api_cart_items_delete_destroy
+      tags:
+        - api
+      security:
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+      responses:
+        "204":
+          description: No response body
   /api/categories/:
     get:
       operationId: api_categories_list
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Category'
-          description: ''
+                  $ref: "#/components/schemas/Category"
+          description: ""
     post:
       operationId: api_categories_create
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Category'
+              $ref: "#/components/schemas/Category"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Category'
+              $ref: "#/components/schemas/Category"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Category'
+              $ref: "#/components/schemas/Category"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '201':
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
-          description: ''
+                $ref: "#/components/schemas/Category"
+          description: ""
   /api/categories/{id}/:
     get:
       operationId: api_categories_retrieve
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this category.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this category.
+          required: true
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
-          description: ''
+                $ref: "#/components/schemas/Category"
+          description: ""
     put:
       operationId: api_categories_update
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this category.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this category.
+          required: true
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Category'
+              $ref: "#/components/schemas/Category"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Category'
+              $ref: "#/components/schemas/Category"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Category'
+              $ref: "#/components/schemas/Category"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
-          description: ''
+                $ref: "#/components/schemas/Category"
+          description: ""
     patch:
       operationId: api_categories_partial_update
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this category.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this category.
+          required: true
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedCategory'
+              $ref: "#/components/schemas/PatchedCategory"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedCategory'
+              $ref: "#/components/schemas/PatchedCategory"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedCategory'
+              $ref: "#/components/schemas/PatchedCategory"
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
-          description: ''
+                $ref: "#/components/schemas/Category"
+          description: ""
     delete:
       operationId: api_categories_destroy
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this category.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this category.
+          required: true
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '204':
+        "204":
           description: No response body
   /api/groups/manager/users/:
     get:
       operationId: api_groups_manager_users_retrieve
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           description: List of managers or success message.
-        '400':
+        "400":
           description: Username is required.
-        '403':
+        "403":
           description: Only staff users can add/delete managers.
-        '405':
+        "405":
           description: Method not allowed.
     post:
       operationId: api_groups_manager_users_create
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           description: List of managers or success message.
-        '400':
+        "400":
           description: Username is required.
-        '403':
+        "403":
           description: Only staff users can add/delete managers.
-        '405':
+        "405":
           description: Method not allowed.
   /api/menu-items/:
     get:
       operationId: api_menu_items_list
       description: List or create menu items. POST is manager-only.
       tags:
-      - Menu Items
+        - Menu Items
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/MenuItem'
-          description: ''
-        '201':
+                  $ref: "#/components/schemas/MenuItem"
+          description: ""
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MenuItem'
-          description: ''
+                $ref: "#/components/schemas/MenuItem"
+          description: ""
     post:
       operationId: api_menu_items_create
       description: List or create menu items. POST is manager-only.
       tags:
-      - Menu Items
+        - Menu Items
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MenuItem'
+              $ref: "#/components/schemas/MenuItem"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/MenuItem'
+              $ref: "#/components/schemas/MenuItem"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/MenuItem'
+              $ref: "#/components/schemas/MenuItem"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/MenuItem'
-          description: ''
-        '201':
+                  $ref: "#/components/schemas/MenuItem"
+          description: ""
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MenuItem'
-          description: ''
+                $ref: "#/components/schemas/MenuItem"
+          description: ""
   /api/menu-items/{id}/:
     get:
       operationId: api_menu_items_retrieve
       description: view or modify a single menu item.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MenuItem'
-          description: ''
+                $ref: "#/components/schemas/MenuItem"
+          description: ""
     put:
       operationId: api_menu_items_update
       description: view or modify a single menu item.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MenuItem'
+              $ref: "#/components/schemas/MenuItem"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/MenuItem'
+              $ref: "#/components/schemas/MenuItem"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/MenuItem'
+              $ref: "#/components/schemas/MenuItem"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MenuItem'
-          description: ''
+                $ref: "#/components/schemas/MenuItem"
+          description: ""
     patch:
       operationId: api_menu_items_partial_update
       description: view or modify a single menu item.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedMenuItem'
+              $ref: "#/components/schemas/PatchedMenuItem"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedMenuItem'
+              $ref: "#/components/schemas/PatchedMenuItem"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedMenuItem'
+              $ref: "#/components/schemas/PatchedMenuItem"
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MenuItem'
-          description: ''
+                $ref: "#/components/schemas/MenuItem"
+          description: ""
     delete:
       operationId: api_menu_items_destroy
       description: view or modify a single menu item.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MenuItem'
-          description: ''
+                $ref: "#/components/schemas/MenuItem"
+          description: ""
   /api/menu-items/featured/:
     get:
       operationId: api_menu_items_featured_retrieve
       description: view/update featured menu item.
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MenuItem'
-          description: ''
-        '404':
+                $ref: "#/components/schemas/MenuItem"
+          description: ""
+        "404":
           description: No special item for today.
-        '403':
+        "403":
           description: Admin only.
-        '400':
+        "400":
           description: Item ID is required.
     post:
       operationId: api_menu_items_featured_create
       description: view/update featured menu item.
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MenuItem'
+              $ref: "#/components/schemas/MenuItem"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/MenuItem'
+              $ref: "#/components/schemas/MenuItem"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/MenuItem'
+              $ref: "#/components/schemas/MenuItem"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MenuItem'
-          description: ''
-        '404':
+                $ref: "#/components/schemas/MenuItem"
+          description: ""
+        "404":
           description: No special item for today.
-        '403':
+        "403":
           description: Admin only.
-        '400':
+        "400":
           description: Item ID is required.
   /api/order-items/:
     get:
       operationId: api_order_items_list
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CartItem'
-          description: ''
+                  $ref: "#/components/schemas/CartItem"
+          description: ""
     post:
       operationId: api_order_items_create
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '201':
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartItem'
-          description: ''
+                $ref: "#/components/schemas/CartItem"
+          description: ""
   /api/order-items/{id}/:
     get:
       operationId: api_order_items_retrieve
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this cart item.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this cart item.
+          required: true
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartItem'
-          description: ''
+                $ref: "#/components/schemas/CartItem"
+          description: ""
     put:
       operationId: api_order_items_update
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this cart item.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this cart item.
+          required: true
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CartItem'
+              $ref: "#/components/schemas/CartItem"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartItem'
-          description: ''
+                $ref: "#/components/schemas/CartItem"
+          description: ""
     patch:
       operationId: api_order_items_partial_update
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this cart item.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this cart item.
+          required: true
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedCartItem'
+              $ref: "#/components/schemas/PatchedCartItem"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedCartItem'
+              $ref: "#/components/schemas/PatchedCartItem"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedCartItem'
+              $ref: "#/components/schemas/PatchedCartItem"
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartItem'
-          description: ''
+                $ref: "#/components/schemas/CartItem"
+          description: ""
     delete:
       operationId: api_order_items_destroy
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this cart item.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this cart item.
+          required: true
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '204':
+        "204":
           description: No response body
   /api/orders/:
     get:
       operationId: api_order_list
-      description: View to see orders. Managers see all, users see their own orders
+      description:
+        View to see orders. Managers see all, users see their own orders
         and delivery crew see orders assigned to them.
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Order'
-          description: ''
+                  $ref: "#/components/schemas/Order"
+          description: ""
   /api/orders/{id}/:
     get:
       operationId: api_order_details_get
       description: Retrieve a specific order.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
-          description: ''
-        '403':
+                $ref: "#/components/schemas/Order"
+          description: ""
+        "403":
           content:
             application/json:
               schema:
@@ -844,25 +857,25 @@ paths:
       operationId: api_order_details_patch
       description: Update a specific order.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
-          description: ''
-        '403':
+                $ref: "#/components/schemas/Order"
+          description: ""
+        "403":
           content:
             application/json:
               schema:
@@ -873,21 +886,21 @@ paths:
       operationId: api_order_details_delete
       description: Delete a specific order.
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '204':
+        "204":
           description: Order deleted.
-        '403':
+        "403":
           content:
             application/json:
               schema:
@@ -899,13 +912,13 @@ paths:
       operationId: api_throttle_check_auth_retrieve
       description: This is just for testing throttling.
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           description: No response body
   /api/token/:
     post:
@@ -914,26 +927,26 @@ paths:
         Takes a set of user credentials and returns an access and refresh JSON web
         token pair to prove the authentication of those credentials.
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TokenObtainPair'
+              $ref: "#/components/schemas/TokenObtainPair"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/TokenObtainPair'
+              $ref: "#/components/schemas/TokenObtainPair"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/TokenObtainPair'
+              $ref: "#/components/schemas/TokenObtainPair"
         required: true
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenObtainPair'
-          description: ''
+                $ref: "#/components/schemas/TokenObtainPair"
+          description: ""
   /api/token/blacklist/:
     post:
       operationId: api_token_blacklist_create
@@ -941,26 +954,26 @@ paths:
         Takes a token and blacklists it. Must be used with the
         `rest_framework_simplejwt.token_blacklist` app installed.
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TokenBlacklist'
+              $ref: "#/components/schemas/TokenBlacklist"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/TokenBlacklist'
+              $ref: "#/components/schemas/TokenBlacklist"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/TokenBlacklist'
+              $ref: "#/components/schemas/TokenBlacklist"
         required: true
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenBlacklist'
-          description: ''
+                $ref: "#/components/schemas/TokenBlacklist"
+          description: ""
   /api/token/refresh/:
     post:
       operationId: api_token_refresh_create
@@ -968,581 +981,585 @@ paths:
         Takes a refresh type JSON web token and returns an access type JSON web
         token if the refresh token is valid.
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TokenRefresh'
+              $ref: "#/components/schemas/TokenRefresh"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/TokenRefresh'
+              $ref: "#/components/schemas/TokenRefresh"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/TokenRefresh'
+              $ref: "#/components/schemas/TokenRefresh"
         required: true
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenRefresh'
-          description: ''
+                $ref: "#/components/schemas/TokenRefresh"
+          description: ""
   /auth/token/login/:
     post:
       operationId: auth_token_login_create
       description: Use this endpoint to obtain user authentication token.
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TokenCreate'
+              $ref: "#/components/schemas/TokenCreate"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/TokenCreate'
+              $ref: "#/components/schemas/TokenCreate"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/TokenCreate'
+              $ref: "#/components/schemas/TokenCreate"
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenCreate'
-          description: ''
+                $ref: "#/components/schemas/TokenCreate"
+          description: ""
   /auth/token/logout/:
     post:
       operationId: auth_token_logout_create
       description: Use this endpoint to logout user (remove user authentication token).
       tags:
-      - auth
+        - auth
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           description: No response body
   /auth/users/:
     get:
       operationId: auth_users_list
       tags:
-      - auth
+        - auth
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
-          description: ''
+                  $ref: "#/components/schemas/User"
+          description: ""
     post:
       operationId: auth_users_create
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserCreate'
+              $ref: "#/components/schemas/UserCreate"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/UserCreate'
+              $ref: "#/components/schemas/UserCreate"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UserCreate'
+              $ref: "#/components/schemas/UserCreate"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '201':
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserCreate'
-          description: ''
+                $ref: "#/components/schemas/UserCreate"
+          description: ""
   /auth/users/{username}/:
     get:
       operationId: auth_users_retrieve
       parameters:
-      - in: path
-        name: username
-        schema:
-          type: string
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-            only.
-        required: true
+        - in: path
+          name: username
+          schema:
+            type: string
+            description:
+              Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+              only.
+          required: true
       tags:
-      - auth
+        - auth
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-          description: ''
+                $ref: "#/components/schemas/User"
+          description: ""
     put:
       operationId: auth_users_update
       parameters:
-      - in: path
-        name: username
-        schema:
-          type: string
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-            only.
-        required: true
+        - in: path
+          name: username
+          schema:
+            type: string
+            description:
+              Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+              only.
+          required: true
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-          description: ''
+                $ref: "#/components/schemas/User"
+          description: ""
     patch:
       operationId: auth_users_partial_update
       parameters:
-      - in: path
-        name: username
-        schema:
-          type: string
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-            only.
-        required: true
+        - in: path
+          name: username
+          schema:
+            type: string
+            description:
+              Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+              only.
+          required: true
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: "#/components/schemas/PatchedUser"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: "#/components/schemas/PatchedUser"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: "#/components/schemas/PatchedUser"
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-          description: ''
+                $ref: "#/components/schemas/User"
+          description: ""
     delete:
       operationId: auth_users_destroy
       parameters:
-      - in: path
-        name: username
-        schema:
-          type: string
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-            only.
-        required: true
+        - in: path
+          name: username
+          schema:
+            type: string
+            description:
+              Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+              only.
+          required: true
       tags:
-      - auth
+        - auth
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '204':
+        "204":
           description: No response body
   /auth/users/activation/:
     post:
       operationId: auth_users_activation_create
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Activation'
+              $ref: "#/components/schemas/Activation"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Activation'
+              $ref: "#/components/schemas/Activation"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Activation'
+              $ref: "#/components/schemas/Activation"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Activation'
-          description: ''
+                $ref: "#/components/schemas/Activation"
+          description: ""
   /auth/users/me/:
     get:
       operationId: auth_users_me_retrieve
       tags:
-      - auth
+        - auth
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-          description: ''
+                $ref: "#/components/schemas/User"
+          description: ""
     put:
       operationId: auth_users_me_update
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-          description: ''
+                $ref: "#/components/schemas/User"
+          description: ""
     patch:
       operationId: auth_users_me_partial_update
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: "#/components/schemas/PatchedUser"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: "#/components/schemas/PatchedUser"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: "#/components/schemas/PatchedUser"
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-          description: ''
+                $ref: "#/components/schemas/User"
+          description: ""
     delete:
       operationId: auth_users_me_destroy
       tags:
-      - auth
+        - auth
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '204':
+        "204":
           description: No response body
   /auth/users/resend_activation/:
     post:
       operationId: auth_users_resend_activation_create
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SendEmailReset'
+              $ref: "#/components/schemas/SendEmailReset"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/SendEmailReset'
+              $ref: "#/components/schemas/SendEmailReset"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/SendEmailReset'
+              $ref: "#/components/schemas/SendEmailReset"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SendEmailReset'
-          description: ''
+                $ref: "#/components/schemas/SendEmailReset"
+          description: ""
   /auth/users/reset_password/:
     post:
       operationId: auth_users_reset_password_create
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SendEmailReset'
+              $ref: "#/components/schemas/SendEmailReset"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/SendEmailReset'
+              $ref: "#/components/schemas/SendEmailReset"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/SendEmailReset'
+              $ref: "#/components/schemas/SendEmailReset"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SendEmailReset'
-          description: ''
+                $ref: "#/components/schemas/SendEmailReset"
+          description: ""
   /auth/users/reset_password_confirm/:
     post:
       operationId: auth_users_reset_password_confirm_create
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
+              $ref: "#/components/schemas/PasswordResetConfirm"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
+              $ref: "#/components/schemas/PasswordResetConfirm"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PasswordResetConfirm'
+              $ref: "#/components/schemas/PasswordResetConfirm"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PasswordResetConfirm'
-          description: ''
+                $ref: "#/components/schemas/PasswordResetConfirm"
+          description: ""
   /auth/users/reset_username/:
     post:
       operationId: auth_users_reset_username_create
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SendEmailReset'
+              $ref: "#/components/schemas/SendEmailReset"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/SendEmailReset'
+              $ref: "#/components/schemas/SendEmailReset"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/SendEmailReset'
+              $ref: "#/components/schemas/SendEmailReset"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SendEmailReset'
-          description: ''
+                $ref: "#/components/schemas/SendEmailReset"
+          description: ""
   /auth/users/reset_username_confirm/:
     post:
       operationId: auth_users_reset_username_confirm_create
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UsernameResetConfirm'
+              $ref: "#/components/schemas/UsernameResetConfirm"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/UsernameResetConfirm'
+              $ref: "#/components/schemas/UsernameResetConfirm"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UsernameResetConfirm'
+              $ref: "#/components/schemas/UsernameResetConfirm"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
-      - {}
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
+        - {}
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsernameResetConfirm'
-          description: ''
+                $ref: "#/components/schemas/UsernameResetConfirm"
+          description: ""
   /auth/users/set_password/:
     post:
       operationId: auth_users_set_password_create
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SetPassword'
+              $ref: "#/components/schemas/SetPassword"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/SetPassword'
+              $ref: "#/components/schemas/SetPassword"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/SetPassword'
+              $ref: "#/components/schemas/SetPassword"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SetPassword'
-          description: ''
+                $ref: "#/components/schemas/SetPassword"
+          description: ""
   /auth/users/set_username/:
     post:
       operationId: auth_users_set_username_create
       tags:
-      - auth
+        - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SetUsername'
+              $ref: "#/components/schemas/SetUsername"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/SetUsername'
+              $ref: "#/components/schemas/SetUsername"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/SetUsername'
+              $ref: "#/components/schemas/SetUsername"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SetUsername'
-          description: ''
+                $ref: "#/components/schemas/SetUsername"
+          description: ""
   /drf/ratings:
     get:
       operationId: drf_ratings_list
       description: View to handle listing and creating ratings.
       tags:
-      - drf
+        - drf
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Rating'
-          description: ''
+                  $ref: "#/components/schemas/Rating"
+          description: ""
     post:
       operationId: drf_ratings_create
       description: View to handle listing and creating ratings.
       tags:
-      - drf
+        - drf
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Rating'
+              $ref: "#/components/schemas/Rating"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Rating'
+              $ref: "#/components/schemas/Rating"
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Rating'
+              $ref: "#/components/schemas/Rating"
         required: true
       security:
-      - jwtAuth: []
-      - tokenAuth: []
-      - cookieAuth: []
+        - jwtAuth: []
+        - tokenAuth: []
+        - cookieAuth: []
       responses:
-        '201':
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Rating'
-          description: ''
+                $ref: "#/components/schemas/Rating"
+          description: ""
 components:
   schemas:
     Activation:
@@ -1553,8 +1570,8 @@ components:
         token:
           type: string
       required:
-      - token
-      - uid
+        - token
+        - uid
     AuthToken:
       type: object
       properties:
@@ -1568,9 +1585,9 @@ components:
           type: string
           readOnly: true
       required:
-      - password
-      - token
-      - username
+        - password
+        - token
+        - username
     CartItem:
       type: object
       properties:
@@ -1584,8 +1601,8 @@ components:
           maximum: 40
           minimum: 0
       required:
-      - id
-      - menuitem
+        - id
+        - menuitem
     Category:
       type: object
       properties:
@@ -1600,9 +1617,9 @@ components:
           maxLength: 50
           pattern: ^[-a-zA-Z0-9_]+$
       required:
-      - id
-      - slug
-      - title
+        - id
+        - slug
+        - title
     CheckoutResponse:
       type: object
       properties:
@@ -1611,8 +1628,8 @@ components:
         order_id:
           type: integer
       required:
-      - detail
-      - order_id
+        - detail
+        - order_id
     MenuItem:
       type: object
       properties:
@@ -1628,19 +1645,15 @@ components:
           pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
         inventory:
           type: integer
-          maximum: 9223372036854775807
-          minimum: -9223372036854775808
-          format: int64
+          maximum: 400
+          minimum: 0
           nullable: true
-        stock:
-          type: integer
-          readOnly: true
         price_after_tax:
           type: string
           readOnly: true
         category:
           allOf:
-          - $ref: '#/components/schemas/Category'
+            - $ref: "#/components/schemas/Category"
           readOnly: true
         category_id:
           type: integer
@@ -1648,13 +1661,12 @@ components:
         featured:
           type: boolean
       required:
-      - category
-      - category_id
-      - id
-      - price
-      - price_after_tax
-      - stock
-      - title
+        - category
+        - category_id
+        - id
+        - price
+        - price_after_tax
+        - title
     Order:
       type: object
       properties:
@@ -1676,10 +1688,10 @@ components:
           type: string
           format: date
       required:
-      - date
-      - id
-      - total
-      - user
+        - date
+        - id
+        - total
+        - user
     PasswordResetConfirm:
       type: object
       properties:
@@ -1690,9 +1702,9 @@ components:
         new_password:
           type: string
       required:
-      - new_password
-      - token
-      - uid
+        - new_password
+        - token
+        - uid
     PatchedCartItem:
       type: object
       properties:
@@ -1733,19 +1745,15 @@ components:
           pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
         inventory:
           type: integer
-          maximum: 9223372036854775807
-          minimum: -9223372036854775808
-          format: int64
+          maximum: 400
+          minimum: 0
           nullable: true
-        stock:
-          type: integer
-          readOnly: true
         price_after_tax:
           type: string
           readOnly: true
         category:
           allOf:
-          - $ref: '#/components/schemas/Category'
+            - $ref: "#/components/schemas/Category"
           readOnly: true
         category_id:
           type: integer
@@ -1763,7 +1771,8 @@ components:
         username:
           type: string
           readOnly: true
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+          description:
+            Required. 150 characters or fewer. Letters, digits and @/./+/-/_
             only.
     Rating:
       type: object
@@ -1783,8 +1792,8 @@ components:
           maximum: 5
           minimum: 0
       required:
-      - menuitem_id
-      - rating
+        - menuitem_id
+        - rating
     SendEmailReset:
       type: object
       properties:
@@ -1792,7 +1801,7 @@ components:
           type: string
           format: email
       required:
-      - email
+        - email
     SetPassword:
       type: object
       properties:
@@ -1801,8 +1810,8 @@ components:
         current_password:
           type: string
       required:
-      - current_password
-      - new_password
+        - current_password
+        - new_password
     SetUsername:
       type: object
       properties:
@@ -1811,13 +1820,14 @@ components:
         new_username:
           type: string
           title: Username
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+          description:
+            Required. 150 characters or fewer. Letters, digits and @/./+/-/_
             only.
           pattern: ^[\w.@+-]+$
           maxLength: 150
       required:
-      - current_password
-      - new_username
+        - current_password
+        - new_username
     TokenBlacklist:
       type: object
       properties:
@@ -1825,7 +1835,7 @@ components:
           type: string
           writeOnly: true
       required:
-      - refresh
+        - refresh
     TokenCreate:
       type: object
       properties:
@@ -1849,10 +1859,10 @@ components:
           type: string
           readOnly: true
       required:
-      - access
-      - password
-      - refresh
-      - username
+        - access
+        - password
+        - refresh
+        - username
     TokenRefresh:
       type: object
       properties:
@@ -1863,8 +1873,8 @@ components:
           type: string
           writeOnly: true
       required:
-      - access
-      - refresh
+        - access
+        - refresh
     User:
       type: object
       properties:
@@ -1876,10 +1886,11 @@ components:
         username:
           type: string
           readOnly: true
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+          description:
+            Required. 150 characters or fewer. Letters, digits and @/./+/-/_
             only.
       required:
-      - username
+        - username
     UserCreate:
       type: object
       properties:
@@ -1890,7 +1901,8 @@ components:
           maxLength: 254
         username:
           type: string
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+          description:
+            Required. 150 characters or fewer. Letters, digits and @/./+/-/_
             only.
           pattern: ^[\w.@+-]+$
           maxLength: 150
@@ -1898,20 +1910,21 @@ components:
           type: string
           writeOnly: true
       required:
-      - password
-      - username
+        - password
+        - username
     UsernameResetConfirm:
       type: object
       properties:
         new_username:
           type: string
           title: Username
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+          description:
+            Required. 150 characters or fewer. Letters, digits and @/./+/-/_
             only.
           pattern: ^[\w.@+-]+$
           maxLength: 150
       required:
-      - new_username
+        - new_username
   securitySchemes:
     cookieAuth:
       type: apiKey
