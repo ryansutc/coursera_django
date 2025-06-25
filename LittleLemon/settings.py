@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env file.
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-v5$g(3-$909ukg$k2y3s7dv3aw5hm%qzq28z33$4r(ingtxoam"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "yes")
 
 ALLOWED_HOSTS = []
 
@@ -138,7 +140,7 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.BrowsableAPIRenderer",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication",
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",  # for djoser
     ],
@@ -157,8 +159,8 @@ DJOSER = {
 
 if DEBUG:
     SIMPLE_JWT = {
-        "ACCESS_TOKEN_LIFETIME": timedelta(hours=4),  # Longer for development
-        "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+        "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),  # Longer for development
+        "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     }
     
     CORS_ALLOWED_ORIGINS = [

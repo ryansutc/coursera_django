@@ -18,10 +18,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
     TokenRefreshView,
     TokenBlacklistView,
 )
+from LittlelemonAPI.views.auth import CookieTokenObtainPairView, CookieTokenRefreshView
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -29,8 +29,8 @@ urlpatterns = [
     path("drf/", include("LittleLemonDRF.urls")),  # Include DRF app URLs
     path("auth/", include("djoser.urls")),  # Djoser authentication endpoints
     path("auth/", include("djoser.urls.authtoken")),  # Token authentication endpoints
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/token/", CookieTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", CookieTokenRefreshView.as_view(), name="token_refresh"),
     path("api/token/blacklist/", TokenBlacklistView.as_view(), name="token_blacklist"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # Optional UI:
