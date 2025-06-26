@@ -12,6 +12,7 @@ djangorestframework-simplejwt = "*"
 bleach = "*"
 drf-spectacular = "*"
 django-cors-headers = "*"
+python-dotenv = "*"
 
 [dev-packages]
 flake8 = "*"

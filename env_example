@@ -6,4 +6,7 @@ MANAGE_PY_PATH=manage.py
 # for pytest_django
 DJANGO_SETTINGS_MODULE=LittleLemon.settings
 
+# for dev vs prod build setup. true == debug & non-prod:
+DEBUG=True
+
 # your additional env vars here.
