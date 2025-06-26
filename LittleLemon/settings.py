@@ -179,4 +179,18 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API for the Little Lemon restaurant project",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
+    # "COMPONENT_NO_READ_ONLY_REQUIRED": True,
+    # "PREPROCESSING_HOOKS": [],
+    # "POSTPROCESSING_HOOKS": [],
+    # "DEFAULT_AUTHENTICATION_ERROR_RESPONSE": {
+    #     "401": {
+    #         "description": "Invalid or expired JWT token",
+    #         "content": {
+    #             "application/json": {
+    #                 "schema": JWTAuthErrorSerializer,
+    #             }
+    #         }
+    #     }
+    # },
 }

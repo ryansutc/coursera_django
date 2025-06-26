@@ -22,7 +22,9 @@ from django.contrib.auth.models import User
 def menu_items(request):
     # Only allow POST method for manager users
     user = request.user
-    if request.method != "GET" and not user.groups.filter(name="manager").exists(): 
+    if request.method != "GET" and not user.groups.filter(name="manager").exists():
+        if not request.user.is_authenticated:
+            return Response({"detail": "No jwt token."}, status=status.HTTP_401_UNAUTHORIZED) 
         return Response({"detail": "managers only."}, status=status.HTTP_403_FORBIDDEN)
 
     if request.method == "GET":
