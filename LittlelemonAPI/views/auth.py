@@ -5,8 +5,19 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, Toke
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
+from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
+from drf_spectacular.utils import extend_schema
 
+# custom serializers for our endpoints to override the built-in default ones
+class CookieTokenObtainPairResponseSerializer(serializers.Serializer):
+    access = serializers.CharField()
 
+class CookieTokenRefreshResponseSerializer(serializers.Serializer):
+    access = serializers.CharField()
+@extend_schema(
+    responses={200: CookieTokenObtainPairResponseSerializer}
+)
 class CookieTokenObtainPairView(TokenObtainPairView):
     '''
     Our override of the simple jwt TokenObtainPairView.
@@ -30,7 +41,10 @@ class CookieTokenObtainPairView(TokenObtainPairView):
             # Optionally remove refresh from response body
             del response.data["refresh"]
         return response
-    
+
+@extend_schema(
+    responses={200: CookieTokenRefreshResponseSerializer}
+) 
 class CookieTokenRefreshView(TokenRefreshView):
     '''
     Our override of the simple jwt TokenRefreshView.

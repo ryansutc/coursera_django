@@ -924,8 +924,9 @@ paths:
     post:
       operationId: api_token_create
       description: |-
-        Takes a set of user credentials and returns an access and refresh JSON web
-        token pair to prove the authentication of those credentials.
+        Our override of the simple jwt TokenObtainPairView.
+        We choose to set the refresh token in a cookie for better security
+        after a user logs in and gets a token
       tags:
         - api
       requestBody:
@@ -945,7 +946,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TokenObtainPair"
+                $ref: "#/components/schemas/CookieTokenObtainPairResponse"
           description: ""
   /api/token/blacklist/:
     post:
@@ -974,8 +975,10 @@ paths:
     post:
       operationId: api_token_refresh_create
       description: |-
-        Takes a refresh type JSON web token and returns an access type JSON web
-        token if the refresh token is valid.
+        Our override of the simple jwt TokenRefreshView.
+        We choose to get the refresh token from the cookie
+        instead of the request body when a client/user tries
+        to refresh their token.
       tags:
         - api
       requestBody:
@@ -995,7 +998,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TokenRefresh"
+                $ref: "#/components/schemas/CookieTokenRefreshResponse"
           description: ""
   /auth/token/login/:
     post:
@@ -1670,6 +1673,20 @@ components:
       required:
         - detail
         - order_id
+    CookieTokenObtainPairResponse:
+      type: object
+      properties:
+        access:
+          type: string
+      required:
+        - access
+    CookieTokenRefreshResponse:
+      type: object
+      properties:
+        access:
+          type: string
+      required:
+        - access
     MenuItem:
       type: object
       properties:
@@ -1970,18 +1987,6 @@ components:
         username:
           type: string
           minLength: 1
-    TokenObtainPair:
-      type: object
-      properties:
-        access:
-          type: string
-          readOnly: true
-        refresh:
-          type: string
-          readOnly: true
-      required:
-        - access
-        - refresh
     TokenObtainPairRequest:
       type: object
       properties:
@@ -1996,14 +2001,6 @@ components:
       required:
         - password
         - username
-    TokenRefresh:
-      type: object
-      properties:
-        access:
-          type: string
-          readOnly: true
-      required:
-        - access
     TokenRefreshRequest:
       type: object
       properties:

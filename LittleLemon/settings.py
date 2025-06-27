@@ -140,7 +140,7 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.BrowsableAPIRenderer",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",  # for djoser
     ],
@@ -169,6 +169,8 @@ if DEBUG:
         "http://localhost:3000",
         "http://127.0.0.1:3000",
     ]
+    
+    CORS_ALLOW_CREDENTIALS = True
 
 else:
     SIMPLE_JWT = {

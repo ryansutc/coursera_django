@@ -25,7 +25,7 @@ class CartItemsView(viewsets.ModelViewSet):
     @action(detail=False, methods=["delete"], url_path='', url_name='delete')
     def delete(self, request):
         CartItem.objects.filter(user=request.user).delete()
-        return Response({"detail": "Cart cleared."}, status=status.HTTP_204_NO_CONTENT)
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
         return Response({"detail": "Cart cleared."}, status=HTTP_STATUS_204_NO_CONTENT)
 class OrderItemsView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -73,14 +73,4 @@ def checkout(request):
     return Response(
         {"detail": "Order created successfully.", "order_id": order.id},
         status=201,
-    )
-@api_view(["DELETE"])
-@permission_classes([IsAuthenticated])
-def clear_checkout(request):
-    user = User.objects.get(id=request.user.id)
-    cart_items = CartItem.objects.filter(user=user)
-    cart_items.delete()
-    return Response(
-        {"detail": "Cart items deleted successfully."},
-        status=204,
     )
