@@ -27,8 +27,8 @@ SECRET_KEY = "django-insecure-v5$g(3-$909ukg$k2y3s7dv3aw5hm%qzq28z33$4r(ingtxoam
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "yes")
-
-ALLOWED_HOSTS = []
+if DEBUG:
+    ALLOWED_HOSTS = ["*"]  # Allow all hosts in debug mode (allows clients outside wsl)
 
 
 # Application definition
