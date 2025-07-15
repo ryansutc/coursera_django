@@ -14,15 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+from graphene_django.views import GraphQLView
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework_simplejwt.views import (
-    TokenRefreshView,
     TokenBlacklistView,
 )
 from LittlelemonAPI.views.auth import CookieTokenObtainPairView, CookieTokenRefreshView
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from django.views.decorators.csrf import csrf_exempt
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("LittlelemonAPI.urls")),
@@ -36,6 +37,7 @@ urlpatterns = [
     # Optional UI:
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True)), name="graphql"),
 ]
 
 # djoser offers a bunch of endpoints:

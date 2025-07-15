@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "drf_spectacular",
     "corsheaders",
+    "graphene_django"
 ]
 
 MIDDLEWARE = [
@@ -197,4 +198,11 @@ SPECTACULAR_SETTINGS = {
     #         }
     #     }
     # },
+}
+
+GRAPHENE = {
+    "SCHEMA": "LittlelemonAPI.schema.schema",
+    "MIDDLEWARE": [
+        "graphene_django.debug.DjangoDebugMiddleware",
+    ]
 }
